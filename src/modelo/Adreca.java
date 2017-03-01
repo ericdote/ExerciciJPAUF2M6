@@ -28,7 +28,7 @@ public class Adreca implements Serializable {
     private int numero;
 
     @Column(name = "poblacio", length = 50, nullable = false)
-    private String polbacio;
+    private String poblacio;
 
     @OneToOne(mappedBy = "adreca")
     private Client client;
@@ -36,10 +36,10 @@ public class Adreca implements Serializable {
     public Adreca() {
     }
 
-    public Adreca(String carrer, int numero, String polbacio) {
+    public Adreca(String carrer, int numero, String poblacio) {
         this.carrer = carrer;
         this.numero = numero;
-        this.polbacio = polbacio;
+        this.poblacio = poblacio;
     }
 
     public Long getId() {
@@ -66,12 +66,12 @@ public class Adreca implements Serializable {
         this.numero = numero;
     }
 
-    public String getPolbacio() {
-        return polbacio;
+    public String getPoblacio() {
+        return poblacio;
     }
 
-    public void setPolbacio(String polbacio) {
-        this.polbacio = polbacio;
+    public void setPoblacio(String poblacio) {
+        this.poblacio = poblacio;
     }
 
     public Client getClient() {
@@ -85,7 +85,7 @@ public class Adreca implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -109,14 +109,6 @@ public class Adreca implements Serializable {
 
     @Override
     public String toString() {
-        return "Adreca{" + "id=" + id + ", carrer=" + carrer + ", numero=" + numero + ", polbacio=" + polbacio + ", client=" + client + '}';
+        return "Adreca{" + "id=" + id + ", carrer=" + carrer + ", numero=" + numero + ", poblacio=" + poblacio + ", client=" + client + '}';
     }
-    
-    
-
-    
-    
-    
-    
-
 }
