@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -44,16 +45,17 @@ public class Vehicle implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clientId")
     private Client propietari;
+    
+    @OneToOne(mappedBy = "vehicle")
+    private Polissa polissa;
 
     public Vehicle() {
     }
 
-    public Vehicle(Long vehicleId, String matricula, String marcaModel, int anyFabricacio, Client propietari) {
-        this.vehicleId = vehicleId;
+    public Vehicle(String matricula, String marcaModel, int anyFabricacio) {
         this.matricula = matricula;
         this.marcaModel = marcaModel;
         this.anyFabricacio = anyFabricacio;
-        this.propietari = propietari;
     }
 
     public Long getVehicleId() {
@@ -99,7 +101,7 @@ public class Vehicle implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.vehicleId);
+        hash = 89 * hash + Objects.hashCode(this.vehicleId);
         return hash;
     }
 
@@ -125,7 +127,8 @@ public class Vehicle implements Serializable {
     public String toString() {
         return "Vehicle{" + "vehicleId=" + vehicleId + ", matricula=" + matricula + ", marcaModel=" + marcaModel + ", anyFabricacio=" + anyFabricacio + ", propietari=" + propietari + '}';
     }
-    
+
+   
     
 
 }

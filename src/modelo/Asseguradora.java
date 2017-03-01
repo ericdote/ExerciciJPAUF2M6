@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -21,30 +19,34 @@ import javax.persistence.Table;
  * @author Eric
  */
 @Entity
-@NamedQueries({
-@NamedQuery(name="usuariNom", query="SELECT p FROM Persona p WHERE p.nom=:nom"),
-@NamedQuery(name="usuariPassword", query="SELECT p FROM Persona p WHERE p.pass=:pass")
-})
-@Table (name = "Usuaris")
-public class Usuari implements Serializable {
+@Table (name = "Asseguradores")
+public class Asseguradora implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    public static final String consulta = "UsuariNom";
-    
     @Id
-    @Column(name = "Nom", length = 30, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long asseguradoraId;
+
+    @Column(name = "nom", length = 100, nullable = false, unique = true)
     private String nom;
     
-    @Column(name = "Password", length = 30, nullable = false)
-    private String pass;
+    @Column (name = "cif")
+    private String cif;
 
-    public Usuari() {
+    public Asseguradora() {
     }
 
-    public Usuari(String nom, String pass) {
+    public Asseguradora(String nom, String cif) {
         this.nom = nom;
-        this.pass = pass;
+        this.cif = cif;
+    }
+
+    public Long getAsseguradoraId() {
+        return asseguradoraId;
+    }
+
+    public void setAsseguradoraId(Long asseguradoraId) {
+        this.asseguradoraId = asseguradoraId;
     }
 
     public String getNom() {
@@ -55,18 +57,18 @@ public class Usuari implements Serializable {
         this.nom = nom;
     }
 
-    public String getPass() {
-        return pass;
+    public String getCif() {
+        return cif;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setCif(String cif) {
+        this.cif = cif;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.nom);
+        hash = 43 * hash + Objects.hashCode(this.asseguradoraId);
         return hash;
     }
 
@@ -81,8 +83,8 @@ public class Usuari implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Usuari other = (Usuari) obj;
-        if (!Objects.equals(this.nom, other.nom)) {
+        final Asseguradora other = (Asseguradora) obj;
+        if (!Objects.equals(this.asseguradoraId, other.asseguradoraId)) {
             return false;
         }
         return true;
@@ -90,10 +92,8 @@ public class Usuari implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuari{" + "nom=" + nom + ", pass=" + pass + '}';
+        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif + '}';
     }
-    
-    
     
     
 }
