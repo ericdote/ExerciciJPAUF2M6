@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Eric
  */
 @Entity
-@Table(name = "Vechiles", indexes = {@Index(columnList = "matricula", name = "indexMatricula")})
+@Table(name = "Vehicles", indexes = {@Index(columnList = "matricula", name = "indexMatricula")})
 public class Vehicle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,22 +40,20 @@ public class Vehicle implements Serializable {
     private String marcaModel;
     
     @Column (name = "anyFabricacio")
-    private int anyFabricacio;
-    
-    @OneToOne(fetch = FetchType.LAZY)
+    private int anyFabricacio;    
+       
     @JoinColumn(name = "clientId")
+    @OneToOne (fetch = FetchType.LAZY) 
     private Client propietari;
-    
-    @OneToOne(mappedBy = "vehicle")
-    private Polissa polissa;
 
     public Vehicle() {
     }
 
-    public Vehicle(String matricula, String marcaModel, int anyFabricacio) {
+    public Vehicle(String matricula, String marcaModel, int anyFabricacio, Client propietari) {
         this.matricula = matricula;
         this.marcaModel = marcaModel;
         this.anyFabricacio = anyFabricacio;
+        this.propietari = propietari;
     }
 
     public Long getVehicleId() {
@@ -100,8 +98,8 @@ public class Vehicle implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.vehicleId);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.vehicleId);
         return hash;
     }
 
@@ -128,7 +126,5 @@ public class Vehicle implements Serializable {
         return "Vehicle{" + "vehicleId=" + vehicleId + ", matricula=" + matricula + ", marcaModel=" + marcaModel + ", anyFabricacio=" + anyFabricacio + ", propietari=" + propietari + '}';
     }
 
-   
     
-
 }

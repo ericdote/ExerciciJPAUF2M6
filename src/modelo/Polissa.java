@@ -37,7 +37,7 @@ public class Polissa implements Serializable {
     private String numero;
     
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clientId", nullable = false)
+    @JoinColumn(name = "prenedor", nullable = false)
     private Client prenedor;
     
     @OneToOne (fetch = FetchType.LAZY)
@@ -133,8 +133,8 @@ public class Polissa implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 31 * hash + Objects.hashCode(this.idPolissa);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.idPolissa);
         return hash;
     }
 
@@ -159,6 +159,8 @@ public class Polissa implements Serializable {
     @Override
     public String toString() {
         return "Polissa{" + "idPolissa=" + idPolissa + ", numero=" + numero + ", prenedor=" + prenedor + ", vehicle=" + vehicle + ", dataInici=" + dataInici + ", dataFi=" + dataFi + ", tipus=" + tipus + ", prima=" + prima + '}';
-    } 
+    }
+
+   
 
 }

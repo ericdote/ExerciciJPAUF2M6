@@ -2,8 +2,10 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,22 +29,15 @@ public class Client implements Serializable {
     @Column(name = "clientId" , unique = true)
     private long id;
     
-    @Column(name = "nif", length = 9, nullable = false)
+    @Column(name = "nif", length = 9, nullable = false, unique = true)
     private String nif;
     
     @Column(name = "nomClient", length = 50)
     private String nom;
     
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "adrecaId")
+    @Embedded
     private Adreca adreca;
     
-    @OneToMany(mappedBy = "vehicleId")
-    private Vehicle vehicle;
-    
-    @OneToOne(mappedBy = "prenedor")
-    private Polissa polissa;
-
     public Client() {
     }
 
@@ -83,26 +78,10 @@ public class Client implements Serializable {
         this.adreca = adreca;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public Polissa getPolissa() {
-        return polissa;
-    }
-
-    public void setPolissa(Polissa polissa) {
-        this.polissa = polissa;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 47 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -126,7 +105,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", adreca=" + adreca + ", vehicle=" + vehicle + ", polissa=" + polissa + '}';
+        return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", adreca=" + adreca + '}';
     }
 
     
