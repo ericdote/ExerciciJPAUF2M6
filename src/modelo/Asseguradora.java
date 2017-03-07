@@ -6,12 +6,14 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,7 +33,10 @@ public class Asseguradora implements Serializable {
     private String nom;
     
     @Column (name = "cif")
-    private String cif;
+    private String cif;    
+    
+    @OneToMany (mappedBy = "asseguradora")
+    private List <Polissa> polissa;
 
     public Asseguradora() {
     }
@@ -65,10 +70,18 @@ public class Asseguradora implements Serializable {
         this.cif = cif;
     }
 
+    public List<Polissa> getPolissa() {
+        return polissa;
+    }
+
+    public void setPolissa(List<Polissa> polissa) {
+        this.polissa = polissa;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.asseguradoraId);
+        hash = 37 * hash + Objects.hashCode(this.asseguradoraId);
         return hash;
     }
 
@@ -92,8 +105,9 @@ public class Asseguradora implements Serializable {
 
     @Override
     public String toString() {
-        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif + '}';
+        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif + ", polissa=" + polissa + '}';
     }
-    
+
+     
     
 }

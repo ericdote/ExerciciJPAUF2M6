@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,7 +25,7 @@ import javax.persistence.Table;
  * @author Eric
  */
 @Entity
-@Table (name = "Polissas", indexes = {@Index(columnList = "prenedor", name = "indexPrenedor")})
+@Table (name = "Polissas", indexes = {@Index(columnList = "clientId", name = "indexPrenedor")})
 public class Polissa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,15 +35,16 @@ public class Polissa implements Serializable {
     private Long idPolissa;
     
     @Column(name = "numeroPolissa", length = 10)
-    private String numero;
+    private String numero;   
     
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prenedor", nullable = false)
-    private Client prenedor;
     
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicleId", nullable =  false)
+    @OneToOne
+    @JoinColumn(name = "vehicle")
     private Vehicle vehicle;
+    
+    @ManyToOne (fetch = FetchType.LAZY) 
+    @JoinColumn(name = "clientId")
+    private Client cliente;
     
     @Column (name = "dataInici", nullable = false)
     private Date dataInici;
@@ -55,6 +57,10 @@ public class Polissa implements Serializable {
     
     @Column (name = "prima")
     private double prima;
+    
+    @ManyToOne
+    @JoinColumn(name = "asseguradoraId")
+    private Asseguradora asseguradora;
 
     public Polissa() {
     }
@@ -83,20 +89,20 @@ public class Polissa implements Serializable {
         this.numero = numero;
     }
 
-    public Client getPrenedor() {
-        return prenedor;
-    }
-
-    public void setPrenedor(Client prenedor) {
-        this.prenedor = prenedor;
-    }
-
     public Vehicle getVehicle() {
         return vehicle;
     }
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public Client getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Client cliente) {
+        this.cliente = cliente;
     }
 
     public Date getDataInici() {
@@ -131,10 +137,18 @@ public class Polissa implements Serializable {
         this.prima = prima;
     }
 
+    public Asseguradora getAsseguradora() {
+        return asseguradora;
+    }
+
+    public void setAsseguradora(Asseguradora asseguradora) {
+        this.asseguradora = asseguradora;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.idPolissa);
+        hash = 73 * hash + Objects.hashCode(this.idPolissa);
         return hash;
     }
 
@@ -158,9 +172,8 @@ public class Polissa implements Serializable {
 
     @Override
     public String toString() {
-        return "Polissa{" + "idPolissa=" + idPolissa + ", numero=" + numero + ", prenedor=" + prenedor + ", vehicle=" + vehicle + ", dataInici=" + dataInici + ", dataFi=" + dataFi + ", tipus=" + tipus + ", prima=" + prima + '}';
+        return "Polissa{" + "idPolissa=" + idPolissa + ", numero=" + numero + ", vehicle=" + vehicle + ", cliente=" + cliente + ", dataInici=" + dataInici + ", dataFi=" + dataFi + ", tipus=" + tipus + ", prima=" + prima + ", asseguradora=" + asseguradora + '}';
     }
 
    
-
 }

@@ -19,8 +19,13 @@ public class PersonaJPA {
         try {
             
             Usuari usu1 = new Usuari();
-            usu1.setNom("Eri4c");
-            usu1.setPass("1234");          
+            usu1.setNom("Er44ic");
+            usu1.setPass("1234");
+            
+            Vehicle vehi1 = new Vehicle();
+            vehi1.setMatricula("AAAfA");
+            vehi1.setMarcaModel("H");
+            vehi1.setAnyFabricacio(1996);
 
 //            Persona persona2 = new Persona();
 //            persona2.setNombre("Emilio");
@@ -43,10 +48,12 @@ public class PersonaJPA {
 //            persona1.setDireccio(direccio1);
 //            persona2.setDireccio(direccio2);
 
-            Usuari_Controller pc = new Usuari_Controller();
+           // Usuari_Controller pc = new Usuari_Controller();
+            Vehicle_Controller vc = new Vehicle_Controller();
 //
 //            //1er INSERTEM LES PERSONES A LA BBDD I DESPRES COMENTEM LES 3 LINIES SEGUENTES
-            pc.Insertar(usu1);
+            //pc.Insertar(usu1);
+            vc.Insertar(vehi1);
 ////            pc.Insertar(persona2);
            // List<Usuari> lista = pc.ConsultaTots();
 ////            pc.imprimirLista(lista);

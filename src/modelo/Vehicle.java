@@ -36,24 +36,26 @@ public class Vehicle implements Serializable {
     @Column(name = "matricula", length = 7, nullable = false)
     private String matricula;
 
-    @Column(name = "marca-model", length = 150)
+    @Column(name = "marcaModel", length = 150)
     private String marcaModel;
     
     @Column (name = "anyFabricacio")
     private int anyFabricacio;    
-       
+    
+    @ManyToOne
     @JoinColumn(name = "clientId")
-    @OneToOne (fetch = FetchType.LAZY) 
     private Client propietari;
+    
+    @OneToOne(mappedBy = "vehicle")
+    private Polissa polissa;
 
     public Vehicle() {
     }
 
-    public Vehicle(String matricula, String marcaModel, int anyFabricacio, Client propietari) {
+    public Vehicle(String matricula, String marcaModel, int anyFabricacio) {
         this.matricula = matricula;
         this.marcaModel = marcaModel;
         this.anyFabricacio = anyFabricacio;
-        this.propietari = propietari;
     }
 
     public Long getVehicleId() {
@@ -96,10 +98,18 @@ public class Vehicle implements Serializable {
         this.propietari = propietari;
     }
 
+    public Polissa getPolissa() {
+        return polissa;
+    }
+
+    public void setPolissa(Polissa polissa) {
+        this.polissa = polissa;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.vehicleId);
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.vehicleId);
         return hash;
     }
 
@@ -123,8 +133,9 @@ public class Vehicle implements Serializable {
 
     @Override
     public String toString() {
-        return "Vehicle{" + "vehicleId=" + vehicleId + ", matricula=" + matricula + ", marcaModel=" + marcaModel + ", anyFabricacio=" + anyFabricacio + ", propietari=" + propietari + '}';
+        return "Vehicle{" + "vehicleId=" + vehicleId + ", matricula=" + matricula + ", marcaModel=" + marcaModel + ", anyFabricacio=" + anyFabricacio + ", propietari=" + propietari + ", polissa=" + polissa + '}';
     }
 
+    
     
 }

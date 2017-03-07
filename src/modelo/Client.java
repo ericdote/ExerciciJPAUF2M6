@@ -3,18 +3,13 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -34,6 +29,12 @@ public class Client implements Serializable {
     
     @Column(name = "nomClient", length = 50)
     private String nom;
+    
+    @OneToMany (mappedBy = "propietari")
+    private List<Vehicle> listaVechiles;
+    
+    @OneToMany (mappedBy = "cliente")
+    private List<Polissa> listaPolizas;
     
     @Embedded
     private Adreca adreca;
@@ -70,6 +71,22 @@ public class Client implements Serializable {
         this.nom = nom;
     }
 
+    public List<Vehicle> getListaVechiles() {
+        return listaVechiles;
+    }
+
+    public void setListaVechiles(List<Vehicle> listaVechiles) {
+        this.listaVechiles = listaVechiles;
+    }
+
+    public List<Polissa> getListaPolizas() {
+        return listaPolizas;
+    }
+
+    public void setListaPolizas(List<Polissa> listaPolizas) {
+        this.listaPolizas = listaPolizas;
+    }
+
     public Adreca getAdreca() {
         return adreca;
     }
@@ -80,8 +97,8 @@ public class Client implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 5;
+        hash = 19 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -102,12 +119,14 @@ public class Client implements Serializable {
         }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {
-        return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", adreca=" + adreca + '}';
+        return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", listaVechiles=" + listaVechiles + ", listaPolizas=" + listaPolizas + ", adreca=" + adreca + '}';
     }
 
-    
+   
     
 }
