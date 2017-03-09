@@ -31,7 +31,7 @@ public class Vehicle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "vehicleId", unique = true)
-    private Long vehicleId;
+    private long vehicleId;
 
     @Column(name = "matricula", length = 7, nullable = false)
     private String matricula;
@@ -52,17 +52,20 @@ public class Vehicle implements Serializable {
     public Vehicle() {
     }
 
-    public Vehicle(String matricula, String marcaModel, int anyFabricacio) {
+    public Vehicle(long vehicleId, String matricula, String marcaModel, int anyFabricacio, Client propietari, Polissa polissa) {
+        this.vehicleId = vehicleId;
         this.matricula = matricula;
         this.marcaModel = marcaModel;
         this.anyFabricacio = anyFabricacio;
+        this.propietari = propietari;
+        this.polissa = polissa;
     }
 
-    public Long getVehicleId() {
+    public long getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(Long vehicleId) {
+    public void setVehicleId(long vehicleId) {
         this.vehicleId = vehicleId;
     }
 
@@ -109,7 +112,7 @@ public class Vehicle implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.vehicleId);
+        hash = 97 * hash + (int) (this.vehicleId ^ (this.vehicleId >>> 32));
         return hash;
     }
 
@@ -125,16 +128,13 @@ public class Vehicle implements Serializable {
             return false;
         }
         final Vehicle other = (Vehicle) obj;
-        if (!Objects.equals(this.vehicleId, other.vehicleId)) {
+        if (this.vehicleId != other.vehicleId) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" + "vehicleId=" + vehicleId + ", matricula=" + matricula + ", marcaModel=" + marcaModel + ", anyFabricacio=" + anyFabricacio + ", propietari=" + propietari + ", polissa=" + polissa + '}';
-    }
+    
 
     
     

@@ -27,7 +27,7 @@ public class Asseguradora implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long asseguradoraId;
+    private long asseguradoraId;
 
     @Column(name = "nom", length = 100, nullable = false, unique = true)
     private String nom;
@@ -41,16 +41,17 @@ public class Asseguradora implements Serializable {
     public Asseguradora() {
     }
 
-    public Asseguradora(String nom, String cif) {
+    public Asseguradora(long asseguradoraId, String nom, String cif) {
+        this.asseguradoraId = asseguradoraId;
         this.nom = nom;
         this.cif = cif;
     }
 
-    public Long getAsseguradoraId() {
+    public long getAsseguradoraId() {
         return asseguradoraId;
     }
 
-    public void setAsseguradoraId(Long asseguradoraId) {
+    public void setAsseguradoraId(long asseguradoraId) {
         this.asseguradoraId = asseguradoraId;
     }
 
@@ -81,7 +82,7 @@ public class Asseguradora implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.asseguradoraId);
+        hash = 41 * hash + (int) (this.asseguradoraId ^ (this.asseguradoraId >>> 32));
         return hash;
     }
 
@@ -97,7 +98,7 @@ public class Asseguradora implements Serializable {
             return false;
         }
         final Asseguradora other = (Asseguradora) obj;
-        if (!Objects.equals(this.asseguradoraId, other.asseguradoraId)) {
+        if (this.asseguradoraId != other.asseguradoraId) {
             return false;
         }
         return true;
@@ -107,6 +108,9 @@ public class Asseguradora implements Serializable {
     public String toString() {
         return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif + ", polissa=" + polissa + '}';
     }
+
+    
+    
 
      
     

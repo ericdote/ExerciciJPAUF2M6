@@ -6,8 +6,8 @@
 package modelo;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.Objects;
+import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +32,7 @@ public class Polissa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "polissaId", unique = true)
-    private Long idPolissa;
+    private long idPolissa;
     
     @Column(name = "numeroPolissa", length = 10)
     private String numero;   
@@ -65,19 +65,23 @@ public class Polissa implements Serializable {
     public Polissa() {
     }
 
-    public Polissa(String numero, Date dataInici, Date dataFi, boolean tipus, double prima) {
+    public Polissa(long idPolissa, String numero, Vehicle vehicle, Client cliente, Date dataInici, Date dataFi, boolean tipus, double prima, Asseguradora asseguradora) {
+        this.idPolissa = idPolissa;
         this.numero = numero;
+        this.vehicle = vehicle;
+        this.cliente = cliente;
         this.dataInici = dataInici;
         this.dataFi = dataFi;
         this.tipus = tipus;
         this.prima = prima;
+        this.asseguradora = asseguradora;
     }
 
-    public Long getIdPolissa() {
+    public long getIdPolissa() {
         return idPolissa;
     }
 
-    public void setIdPolissa(Long idPolissa) {
+    public void setIdPolissa(long idPolissa) {
         this.idPolissa = idPolissa;
     }
 
@@ -148,7 +152,7 @@ public class Polissa implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + Objects.hashCode(this.idPolissa);
+        hash = 59 * hash + (int) (this.idPolissa ^ (this.idPolissa >>> 32));
         return hash;
     }
 
@@ -164,7 +168,7 @@ public class Polissa implements Serializable {
             return false;
         }
         final Polissa other = (Polissa) obj;
-        if (!Objects.equals(this.idPolissa, other.idPolissa)) {
+        if (this.idPolissa != other.idPolissa) {
             return false;
         }
         return true;
@@ -174,6 +178,13 @@ public class Polissa implements Serializable {
     public String toString() {
         return "Polissa{" + "idPolissa=" + idPolissa + ", numero=" + numero + ", vehicle=" + vehicle + ", cliente=" + cliente + ", dataInici=" + dataInici + ", dataFi=" + dataFi + ", tipus=" + tipus + ", prima=" + prima + ", asseguradora=" + asseguradora + '}';
     }
+
+    
+
+   
+
+    
+   
 
    
 }

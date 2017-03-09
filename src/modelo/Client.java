@@ -9,11 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
+@NamedQueries({
+@NamedQuery(name="cercaClientNom", query="SELECT c FROM Client c WHERE c.nom=:nom")})
 @Table (name = "Clientes")
 public class Client implements Serializable {
 
@@ -38,15 +42,17 @@ public class Client implements Serializable {
     
     @Embedded
     private Adreca adreca;
-    
+
     public Client() {
     }
 
-    public Client(String nif, String nom) {       
+    public Client(long id, String nif, String nom, Adreca adreca) {
+        this.id = id;
         this.nif = nif;
         this.nom = nom;
+        this.adreca = adreca;
     }
-
+    
     public long getId() {
         return id;
     }
@@ -97,8 +103,8 @@ public class Client implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 19 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 3;
+        hash = 17 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -119,14 +125,12 @@ public class Client implements Serializable {
         }
         return true;
     }
-    
-    
 
     @Override
     public String toString() {
-        return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", listaVechiles=" + listaVechiles + ", listaPolizas=" + listaPolizas + ", adreca=" + adreca + '}';
+        return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", adreca=" + adreca + '}';
     }
-
-   
+    
+    
     
 }

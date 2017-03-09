@@ -84,31 +84,31 @@ public class Client_Controller {
 
         System.out.println("busqueda");
 
-        Client p = (Client) em.find(Client.class, id);
+        Client c = (Client) em.find(Client.class, id);
 
         System.out.println("close");
         em.close();
 
-        return p;
+        return c;
     }
-    
+         
     public Client BuscarPerNom(String nom) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("Busqueda per nom");
         //Query query = em.createNamedQuery("PersonaNom",Persona.class);
-        Query query = em.createNamedQuery("ClientNom",Client.class);
+        Query query = em.createNamedQuery("cercaClientNom",Client.class);
+        //El primero es ? el segundo es el parametro que le llega al metodo
         query.setParameter("nom", nom);
-        Client p = (Client) query.getSingleResult();
+        Client c = (Client) query.getSingleResult();
         System.out.println("close");
         em.close();
-
-        return p;
+        return c;
     }
 
-    public void imprimirPersona(Client p) {
-        System.out.println(p);
+    public void imprimirPersona(Client c) {
+        System.out.println(c);
     }
     
 }

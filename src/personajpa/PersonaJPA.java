@@ -6,6 +6,10 @@
 package personajpa;
 
 import controlador.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import modelo.*;
 
@@ -17,71 +21,32 @@ public class PersonaJPA {
 
     public static void main(String[] args) {
         try {
+            Calendar cale;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Adreca adre1 = new Adreca("Carrer Fals",1,"Poblcaion No existent");
+            Usuari usu1 = new Usuari("Eric12", "1324");
+            Client cli1 = new Client(0, "1234678-x", "Eric", adre1);
+            Vehicle vehi1 = new Vehicle(0, "AAAA111", "A", 1996, cli1, null);
+            Asseguradora ase1 = new Asseguradora(0, "Mapfre", "45784F");
+            Polissa poli1 = new Polissa(0, "1", vehi1, cli1, sdf.parse("09-03-2017"), sdf.parse("09-03-2017"), true, 0, ase1);
+             
             
-            Usuari usu1 = new Usuari();
-            usu1.setNom("Er44ic");
-            usu1.setPass("1234");
+
+            Usuari_Controller uc = new Usuari_Controller();
+            uc.Insertar(usu1);
             
-            Vehicle vehi1 = new Vehicle();
-            vehi1.setMatricula("AAAfA");
-            vehi1.setMarcaModel("H");
-            vehi1.setAnyFabricacio(1996);
-
-//            Persona persona2 = new Persona();
-//            persona2.setNombre("Emilio");
-//            persona2.setApellidos("Garcia");
-//            persona2.setEmail("emilio@garcia.net");
-//            persona2.setTelefono("876543219");
-//
-//            Direccio direccio1 = new Direccio();
-//            direccio1.setCarrer("Carrer1");
-//            direccio1.setCiutat("Montcada");
-//            direccio1.setCp("21345");
-//            direccio1.setPais("Espanya");
-//
-//            Direccio direccio2 = new Direccio();
-//            direccio2.setCarrer("Carrer2");
-//            direccio2.setCiutat("Reixac");
-//            direccio2.setCp("21346");
-//            direccio2.setPais("Espanya");
-//
-//            persona1.setDireccio(direccio1);
-//            persona2.setDireccio(direccio2);
-
-           // Usuari_Controller pc = new Usuari_Controller();
+            Client_Controller cc = new Client_Controller();
+            cc.Insertar(cli1);
+            
             Vehicle_Controller vc = new Vehicle_Controller();
-//
-//            //1er INSERTEM LES PERSONES A LA BBDD I DESPRES COMENTEM LES 3 LINIES SEGUENTES
-            //pc.Insertar(usu1);
             vc.Insertar(vehi1);
-////            pc.Insertar(persona2);
-           // List<Usuari> lista = pc.ConsultaTots();
-////            pc.imprimirLista(lista);
-//            //2n DESCOMENTEM LES 3 LINIES SEGUENTS, EXECUTEM LA @NamedQuery
-//            String nom = "Eric";
-//            Persona p = pc.BuscarPerNom(nom); //PRIMER IDPERSONA
-//            pc.imprimirPersona(p);
-
-            //3r DESCOMENTEM LES 8 LINIES SEGUENTS, OBTENIM ELS IDPERSONA CREATS A LA BBDD I ELS MODIFIQUEM
-//            Persona p = pc.Buscar(722L); //PRIMER IDPERSONA
-//            pc.imprimirPersona(p);
-//
-//            p.setNombre("Pepe");
-//            pc.Modificar(p);
-//
-//            p = pc.Buscar(741L); //SEGON IDPERSONA
-//            pc.imprimirPersona(p);
-//
-//            pc.Eliminar(p);
-//
-//            List<Persona> lista = pc.ConsultaTots();
-//            pc.imprimirLista(lista);
-            System.out.println("FI");
             
+            Asseguradora_Controller asc = new Asseguradora_Controller();
+            asc.Insertar(ase1);
             
-            
-            
-            
+//            cc.imprimirPersona(cc.BuscarPerNom("Eric"));
+            Polissa_Controller pc = new Polissa_Controller();
+            pc.Insertar(poli1);
             
 
         } catch (Exception ex) {

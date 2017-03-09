@@ -1,23 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import modelo.Usuari;
-import modelo.Vehicle;
-
+import modelo.Polissa;
 /**
  *
  * @author Eric
  */
-public class Vehicle_Controller {
-    public void Insertar(Vehicle p) {
+public class Polissa_Controller {
+    
+    public void Insertar(Polissa p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -33,13 +26,14 @@ public class Vehicle_Controller {
         em.persist(p);
 
         System.out.println("commit");
+        //em.getTransaction().commit();
         etx.commit();
 
         System.out.println("close");
         em.close();
     }
 
-    public void Modificar(Vehicle p) {
+    public void Modificar(Polissa p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -62,7 +56,7 @@ public class Vehicle_Controller {
         em.close();
     }
 
-    public void Eliminar(Vehicle p) {
+    public void Eliminar(Polissa p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -85,13 +79,13 @@ public class Vehicle_Controller {
         em.close();
     }
 
-    public Vehicle Buscar(Long id) {
+    public Polissa Buscar(Long id) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("busqueda");
 
-        Vehicle p = (Vehicle) em.find(Vehicle.class, id);
+        Polissa p = (Polissa) em.find(Polissa.class, id);
 
         System.out.println("close");
         em.close();
@@ -99,42 +93,23 @@ public class Vehicle_Controller {
         return p;
     }
     
-    public Vehicle BuscarPerNom(String nom) {
+    public Polissa BuscarPerNom(String nom) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("Busqueda per nom");
         //Query query = em.createNamedQuery("PersonaNom",Persona.class);
-        Query query = em.createNamedQuery("PersonaNom",Vehicle.class);
-        query.setParameter("nombre", nom);
-        Vehicle p = (Vehicle) query.getSingleResult();
+        Query query = em.createNamedQuery("ClientNom",Polissa.class);
+        query.setParameter("nom", nom);
+        Polissa p = (Polissa) query.getSingleResult();
         System.out.println("close");
         em.close();
 
         return p;
     }
 
-    public List<Vehicle> ConsultaTots() {
-        // Recupera el entity manager
-        EntityManager em = new EM_Controller().getEntityManager();
-
-        System.out.println("Consulta");
-        //List<Persona> lista = (List<Persona>) em.createQuery("FROM Persona").getResultList();
-        Query q = em.createQuery("FROM Persona");
-        List<Vehicle> lista = (List<Vehicle>) q.getResultList();
-        System.out.println("close");
-        em.close();
-        return lista;
-    }
-
-    public void imprimirLista(List<Vehicle> lista) {
-        System.out.println("Numero d'empleats= " + lista.size());
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println(lista.get(i));
-        }
-    }
-
-    public void imprimirPersona(Vehicle p) {
+    public void imprimirPersona(Polissa p) {
         System.out.println(p);
     }
+    
 }
