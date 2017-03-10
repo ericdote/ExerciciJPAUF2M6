@@ -92,26 +92,6 @@ public class Asseguradora_Controller {
         em.close();
 
         return p;
-    }
-    
-    public Asseguradora BuscarPerNom(String nom) {
-        // Recupera el entity manager
-        EntityManager em = new EM_Controller().getEntityManager();
+    } 
 
-        System.out.println("Busqueda per nom");
-        //Query query = em.createNamedQuery("PersonaNom",Persona.class);
-        Query query = em.createNamedQuery("ClientNom",Asseguradora.class);
-        query.setParameter("nom", nom);
-        Asseguradora p = (Asseguradora) query.getSingleResult();
-        System.out.println("close");
-        em.close();
-
-        return p;
-    }
-
-    public void imprimirPersona(Asseguradora p) {
-        System.out.println(p);
-    }
-    
-    
 }

@@ -39,8 +39,9 @@ public class Vehicle_Controller {
         em.close();
     }
 
-    public void Modificar(Vehicle p) {
+    public void Modificar(Vehicle v) {
         // Recupera el entity manager
+       // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
 
@@ -52,7 +53,7 @@ public class Vehicle_Controller {
         etx.begin();
 
         System.out.println("merge");
-        em.merge(p);
+        em.merge(v);
 
         System.out.println("commit");
         //em.getTransaction().commit();
@@ -62,7 +63,7 @@ public class Vehicle_Controller {
         em.close();
     }
 
-    public void Eliminar(Vehicle p) {
+    public void Eliminar(Vehicle v) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -75,7 +76,7 @@ public class Vehicle_Controller {
         etx.begin();
 
         System.out.println("remove");
-        em.remove(em.contains(p) ? p : em.merge(p));
+        em.remove(em.contains(v) ? v : em.merge(v));
 
         System.out.println("commit");
         //em.getTransaction().commit();

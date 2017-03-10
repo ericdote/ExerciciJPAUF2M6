@@ -106,7 +106,7 @@ public class Asseguradora implements Serializable {
 
     @Override
     public String toString() {
-        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif + ", polissa=" + polissa + '}';
+        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif  + '}';
     }
 
     

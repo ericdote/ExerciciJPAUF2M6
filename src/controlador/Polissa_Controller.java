@@ -1,8 +1,12 @@
 package controlador;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import modelo.Client;
 import modelo.Polissa;
 /**
  *
@@ -93,20 +97,17 @@ public class Polissa_Controller {
         return p;
     }
     
-    public Polissa BuscarPerNom(String nom) {
-        // Recupera el entity manager
+    public void BuscarPerClient(Client client) {
         EntityManager em = new EM_Controller().getEntityManager();
-
-        System.out.println("Busqueda per nom");
-        //Query query = em.createNamedQuery("PersonaNom",Persona.class);
-        Query query = em.createNamedQuery("ClientNom",Polissa.class);
-        query.setParameter("nom", nom);
-        Polissa p = (Polissa) query.getSingleResult();
+        System.out.println("Busqueda per id de Client");
+        Query query = em.createNamedQuery("cercaPolizasCliente",Polissa.class);
+        query.setParameter("cliente", client.getId());
+        List<Polissa> lista = (List<Polissa>)query.getResultList();
+        System.out.println(lista);
         System.out.println("close");
         em.close();
-
-        return p;
     }
+    
 
     public void imprimirPersona(Polissa p) {
         System.out.println(p);
