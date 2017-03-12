@@ -17,11 +17,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * Clase que fa de Taula Asseguradora
  *
  * @author Eric
  */
 @Entity
-@Table (name = "Asseguradores")
+@Table(name = "Asseguradores")
 public class Asseguradora implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,12 +32,12 @@ public class Asseguradora implements Serializable {
 
     @Column(name = "nom", length = 100, nullable = false, unique = true)
     private String nom;
-    
-    @Column (name = "cif")
-    private String cif;    
-    
-    @OneToMany (mappedBy = "asseguradora")
-    private List <Polissa> polissa;
+
+    @Column(name = "cif")
+    private String cif;
+    //Relacio OneToMany ja que una asseguradora pot tenir moltes polisses, pero una polissa nomes pot ser d'una asseguradora
+    @OneToMany(mappedBy = "asseguradora")
+    private List<Polissa> polissa;
 
     public Asseguradora() {
     }
@@ -106,12 +107,7 @@ public class Asseguradora implements Serializable {
 
     @Override
     public String toString() {
-        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif  + '}';
+        return "Asseguradora{" + "asseguradoraId=" + asseguradoraId + ", nom=" + nom + ", cif=" + cif + '}';
     }
 
-    
-    
-
-     
-    
 }

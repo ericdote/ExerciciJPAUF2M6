@@ -4,10 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import modelo.Adreca;
 
-
 public class Adreca_Controller {
-    
-        public void Insertar(Adreca p) {
+
+    public void Insertar(Adreca p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -89,5 +88,5 @@ public class Adreca_Controller {
 
         return p;
     }
-    
+
 }

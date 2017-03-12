@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.Serializable;
@@ -15,32 +14,36 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
+/**
+ * Clase que fa de Taula Clientes
+ *
+ * @author Eric
+ */
 @Entity
 @NamedQueries({
-@NamedQuery(name="cercaClientNom", query="SELECT c FROM Client c WHERE c.nom=:nom")})
-@Table (name = "Clientes")
+    @NamedQuery(name = "cercaClientNom", query = "SELECT c FROM Client c WHERE c.nom=:nom")})//Query utilitzada per cercar un Client pel seu nom
+@Table(name = "Clientes")
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "clientId" , unique = true)
+    @Column(name = "clientId", unique = true)
     private long id;
-    
+
     @Column(name = "nif", length = 9, nullable = false, unique = true)
     private String nif;
-    
+
     @Column(name = "nomClient", length = 50)
     private String nom;
-    
-    @OneToMany (mappedBy = "propietari")
+    //Relacio OneToMany ja que un Client pot ser propietari de diferents vehicles, pero un vehicle nomes pot estar llogat a 1 client
+    @OneToMany(mappedBy = "propietari")
     private List<Vehicle> listaVechiles;
-    
-    @OneToMany (mappedBy = "cliente")
+    //Relacio OneToMany ja que un Client pot tenir diverses polisses, pero una polissa nomes pot ser de un Client
+    @OneToMany(mappedBy = "cliente")
     private List<Polissa> listaPolizas;
-    
+    //Taula imbrica Adreca esta dins de Client
     @Embedded
     private Adreca adreca;
 
@@ -53,7 +56,7 @@ public class Client implements Serializable {
         this.nom = nom;
         this.adreca = adreca;
     }
-    
+
     public long getId() {
         return id;
     }
@@ -131,7 +134,5 @@ public class Client implements Serializable {
     public String toString() {
         return "Client{" + "id=" + id + ", nif=" + nif + ", nom=" + nom + ", adreca=" + adreca + '}';
     }
-    
-    
-    
+
 }

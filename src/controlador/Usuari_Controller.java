@@ -16,7 +16,13 @@ import modelo.Usuari;
  * @author Eric
  */
 public class Usuari_Controller {
-        public void Insertar(Usuari p) {
+
+    /**
+     * Metode que inserta un usuari a la BBDD que li entra per parametre
+     *
+     * @param p
+     */
+    public void Insertar(Usuari p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -38,6 +44,12 @@ public class Usuari_Controller {
         em.close();
     }
 
+    /**
+     * Metode que modifica un usuari que li entra per parametre i l'inserta a la
+     * BBDD
+     *
+     * @param p
+     */
     public void Modificar(Usuari p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -61,6 +73,11 @@ public class Usuari_Controller {
         em.close();
     }
 
+    /**
+     * Metode que elimina un usuari que li arriba per parametre a la BBDD
+     *
+     * @param p
+     */
     public void Eliminar(Usuari p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -84,6 +101,13 @@ public class Usuari_Controller {
         em.close();
     }
 
+    /**
+     * Metode que busca un client per ID a la BBDD i el retorna en objecte
+     * d'usuari
+     *
+     * @param id
+     * @return
+     */
     public Usuari Buscar(String id) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();

@@ -10,8 +10,13 @@ import modelo.Asseguradora;
  * @author Eric
  */
 public class Asseguradora_Controller {
-    
-        public void Insertar(Asseguradora p) {
+
+    /**
+     * Metode utilitzat insertar una Asseguradora a la BBDD
+     *
+     * @param p
+     */
+    public void Insertar(Asseguradora p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -34,6 +39,12 @@ public class Asseguradora_Controller {
         em.close();
     }
 
+    /**
+     * Metode utilitzat per modificar una Asseguradora que arriba per parametre
+     * a la BBDD
+     *
+     * @param p
+     */
     public void Modificar(Asseguradora p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -57,6 +68,11 @@ public class Asseguradora_Controller {
         em.close();
     }
 
+    /**
+     * Metode utilitzat per eliminar una Asseguradora de la BBDD
+     *
+     * @param p
+     */
     public void Eliminar(Asseguradora p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -80,6 +96,13 @@ public class Asseguradora_Controller {
         em.close();
     }
 
+    /**
+     * Metode utilitzat per buscar una asseguradora pel seu id i torna un
+     * objecte Asseguradora.
+     *
+     * @param id
+     * @return
+     */
     public Asseguradora Buscar(Long id) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
@@ -92,6 +115,6 @@ public class Asseguradora_Controller {
         em.close();
 
         return p;
-    } 
+    }
 
 }

@@ -20,6 +20,12 @@ import modelo.Vehicle;
  */
 public class Vehicle_Controller {
 
+    /**
+     * Metode utilitzat per insertar Vehicles que li arriben per parametre a la
+     * BBDD
+     *
+     * @param p
+     */
     public void Insertar(Vehicle p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -42,6 +48,12 @@ public class Vehicle_Controller {
         em.close();
     }
 
+    /**
+     * Metode utilitzat per modificar vehicles que li arriben per parametre a la
+     * BBDD
+     *
+     * @param v
+     */
     public void Modificar(Vehicle v) {
         // Recupera el entity manager
         // Recupera el entity manager
@@ -66,6 +78,11 @@ public class Vehicle_Controller {
         em.close();
     }
 
+    /**
+     * Metode que elimina el vehicle que li arriba per parametre de la BBDD
+     *
+     * @param v
+     */
     public void Eliminar(Vehicle v) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -89,7 +106,13 @@ public class Vehicle_Controller {
         em.close();
     }
 
-    public Vehicle Buscar(Long id) {
+    /**
+     * Metode que permet buscar un vehicle per la seva id y el torna
+     *
+     * @param id
+     * @return
+     */
+    public Vehicle Buscar(long id) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
@@ -103,6 +126,13 @@ public class Vehicle_Controller {
         return c;
     }
 
+    /**
+     * Metode que busca un client per la id i el retorna per després asignar-lo
+     * a un vehicle.
+     *
+     * @param id
+     * @return
+     */
     public Client BuscarClient(long id) {
         EntityManager em = new EM_Controller().getEntityManager();
         System.out.println("Cerca de client per id per asignar-lo a la un vehicle: ");
@@ -112,4 +142,5 @@ public class Vehicle_Controller {
         em.close();
         return c;
     }
+
 }

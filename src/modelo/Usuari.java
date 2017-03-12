@@ -13,21 +13,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * Clase utilitzada com Taula de Usuaris.
  *
  * @author Eric
  */
 @Entity
-@Table (name = "Usuaris")
+@Table(name = "Usuaris")
 public class Usuari implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     public static final String consulta = "UsuariNom";
-    
+
     @Id
     @Column(name = "Nom", length = 30, nullable = false)
     private String nom;
-    
+
     @Column(name = "Password", length = 30, nullable = false)
     private String pass;
 
@@ -84,8 +85,5 @@ public class Usuari implements Serializable {
     public String toString() {
         return "Usuari{" + "nom=" + nom + ", pass=" + pass + '}';
     }
-    
-    
-    
-    
+
 }

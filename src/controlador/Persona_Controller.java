@@ -99,14 +99,14 @@ public class Persona_Controller {
 
         return p;
     }
-    
+
     public Persona BuscarPerNom(String nom) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("Busqueda per nom");
         //Query query = em.createNamedQuery("PersonaNom",Persona.class);
-        Query query = em.createNamedQuery("PersonaNom",Persona.class);
+        Query query = em.createNamedQuery("PersonaNom", Persona.class);
         query.setParameter("nombre", nom);
         Persona p = (Persona) query.getSingleResult();
         System.out.println("close");
@@ -120,7 +120,7 @@ public class Persona_Controller {
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("Consulta");
-        //List<Persona> lista = (List<Persona>) em.createQuery("FROM Persona").getResultList();
+//        List<Persona> lista = (List<Persona>) em.createQuery("FROM Persona").getResultList();
         Query q = em.createQuery("FROM Persona");
         List<Persona> lista = (List<Persona>) q.getResultList();
         System.out.println("close");

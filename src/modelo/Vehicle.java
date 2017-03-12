@@ -23,19 +23,21 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * Clase que s'utilitza com Taula de Vehicles.
  *
  * @author Eric
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name="cercaClient", query="SELECT c FROM Client c WHERE c.id=:id")})
-@Table(name = "Vehicles", indexes = {@Index(columnList = "matricula", name = "indexMatricula")})
+    @NamedQuery(name = "cercaClient", query = "SELECT c FROM Client c WHERE c.id=:id")})//Query que serveix per obtenir un client mitjançant la seva ID
+@Table(name = "Vehicles", indexes = {
+    @Index(columnList = "matricula", name = "indexMatricula")})//Asignem nom de la taula i l'index que ens demana l'enunciat.
 public class Vehicle implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "vehicleId", unique = true)
+    @Column(name = "vehicleId", unique = true)//Columna ID que autogenera l'ID, ha de ser unica
     private long vehicleId;
 
     @Column(name = "matricula", length = 7, nullable = false)
@@ -43,14 +45,14 @@ public class Vehicle implements Serializable {
 
     @Column(name = "marcaModel", length = 150)
     private String marcaModel;
-    
-    @Column (name = "anyFabricacio")
-    private int anyFabricacio;    
-    
+
+    @Column(name = "anyFabricacio")
+    private int anyFabricacio;
+    //Relacio ManyToOne amb Client, on un cotxe pot ser d'un client.
     @ManyToOne
     @JoinColumn(name = "clientId")
     private Client propietari;
-    
+    //Relacio OneToOne amb Polissa on un Vehicle només pot estar lligat a una unica polissa al mateix temps.
     @OneToOne(mappedBy = "vehicle")
     private Polissa polissa;
 
@@ -144,8 +146,4 @@ public class Vehicle implements Serializable {
         return "Vehicle{" + "vehicleId=" + vehicleId + ", matricula=" + matricula + ", marcaModel=" + marcaModel + ", anyFabricacio=" + anyFabricacio + ", propietari=" + propietari + '}';
     }
 
-    
-
-    
-    
 }

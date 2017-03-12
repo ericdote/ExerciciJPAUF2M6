@@ -6,10 +6,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import modelo.Client;
 
-
 public class Client_Controller {
-    
-        public void Insertar(Client p) {
+
+    /**
+     * Metode que permet insertar un client que li arriba per parametre a una
+     * BBDD
+     *
+     * @param p
+     */
+    public void Insertar(Client p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
         EntityManager em = oem.getEntityManager();
@@ -32,6 +37,12 @@ public class Client_Controller {
         em.close();
     }
 
+    /**
+     * Metode que li arriba per parametre un Client per modificar-lo i
+     * actualitzar-lo a la BBDD.
+     *
+     * @param p
+     */
     public void Modificar(Client p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -55,6 +66,11 @@ public class Client_Controller {
         em.close();
     }
 
+    /**
+     * Metode utilitzat per eliminar un client de la BBDD
+     *
+     * @param p
+     */
     public void Eliminar(Client p) {
         // Recupera el entity manager
         EM_Controller oem = new EM_Controller();
@@ -78,6 +94,13 @@ public class Client_Controller {
         em.close();
     }
 
+    /**
+     * Metode utilitzat per buscar un client per la seva id i tornar el objecte
+     * sencer.
+     *
+     * @param id
+     * @return
+     */
     public Client Buscar(Long id) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
@@ -91,14 +114,21 @@ public class Client_Controller {
 
         return c;
     }
-         
+
+    /**
+     * Metode que li arriba el nom del client per parametre i retorna el objecte
+     * client sencer relacionat amb el nom
+     *
+     * @param nom
+     * @return
+     */
     public Client BuscarPerNom(String nom) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("Busqueda per nom");
         //Query query = em.createNamedQuery("PersonaNom",Persona.class);
-        Query query = em.createNamedQuery("cercaClientNom",Client.class);
+        Query query = em.createNamedQuery("cercaClientNom", Client.class);
         //El primero es ? el segundo es el parametro que le llega al metodo
         query.setParameter("nom", nom);
         Client c = (Client) query.getSingleResult();
@@ -107,8 +137,13 @@ public class Client_Controller {
         return c;
     }
 
+    /**
+     * Metode utilitzat per imprimir un client
+     *
+     * @param c
+     */
     public void imprimirPersona(Client c) {
         System.out.println(c);
     }
-    
+
 }

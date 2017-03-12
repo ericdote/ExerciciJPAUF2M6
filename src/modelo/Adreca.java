@@ -5,6 +5,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
 
+/**
+ * Classe que s'utilitza com taula Imbrica
+ *
+ * @author Eric
+ */
 @Embeddable
 @Table(name = "Adreca")
 public class Adreca implements Serializable {
@@ -20,7 +25,6 @@ public class Adreca implements Serializable {
     @Column(name = "poblacio", length = 50, nullable = false)
     private String poblacio;
 
-
     public Adreca() {
     }
 
@@ -30,7 +34,7 @@ public class Adreca implements Serializable {
         this.poblacio = poblacio;
     }
 
-   public String getCarrer() {
+    public String getCarrer() {
         return carrer;
     }
 
@@ -52,5 +56,5 @@ public class Adreca implements Serializable {
 
     public void setPoblacio(String poblacio) {
         this.poblacio = poblacio;
-    }   
+    }
 }

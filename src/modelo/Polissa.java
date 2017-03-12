@@ -23,16 +23,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * Clase utilitzada com Taula per polissas
  * @author Eric
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name="cercaPolizasCliente", query="SELECT p FROM Polissa p WHERE p.cliente.id:cliente"),
-@NamedQuery(name="asignarVehicle", query="SELECT v FROM Vehicle v WHERE v.vehicleId=:vehicleId"),
-@NamedQuery(name="asignarAsseguradora", query="SELECT a FROM Asseguradora a WHERE a.asseguradoraId=:aseguradoraId"),
-@NamedQuery(name="asignarClient", query="SELECT c FROM Client c WHERE c.id=:id"),
-@NamedQuery(name="cercaPolizaPerVehicle", query="SELECT p FROM Polissa p WHERE p.vehicle.vehicleId=:vehicle")})
+@NamedQuery(name="cercaPolizasCliente", query="SELECT p FROM Polissa p WHERE p.cliente.id=:id"), //Query que busca un Client dins de Polissas pel seu ID
+@NamedQuery(name="asignarVehicle", query="SELECT v FROM Vehicle v WHERE v.vehicleId=:vehicleId"), //Query que busca un Vehicle dins de la taula Vehicle per la seva ID
+@NamedQuery(name="asignarAsseguradora", query="SELECT a FROM Asseguradora a WHERE a.asseguradoraId=:aseguradoraId"), //Query que busca la Asseguradora a la taula Asseguradora per la seva ID
+@NamedQuery(name="asignarClient", query="SELECT c FROM Client c WHERE c.id=:id"), //Query que busca un Client dins de Clients pel seu ID
+@NamedQuery(name="cercaPolizaPerVehicle", query="SELECT p FROM Polissa p WHERE p.vehicle.vehicleId=:vehicle")}) //Query que busca dins de Polissa, la polissa d'un Vehicle per la seva id.
 @Table (name = "Polissas", indexes = {@Index(columnList = "clientId", name = "indexPrenedor")})
 public class Polissa implements Serializable {
 
@@ -41,30 +41,30 @@ public class Polissa implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "polissaId", unique = true)
     private long idPolissa;
-    
+
     @Column(name = "numeroPolissa", length = 10)
-    private String numero;   
-    
+    private String numero;
+    //Relació OneToOne amb la Taula Vehicles, ja que una polissa per vehicle.
     @OneToOne
     @JoinColumn(name = "vehicle")
     private Vehicle vehicle;
-    
-    @ManyToOne 
+    //Relacio ManyToOne amb client, ja que un Client pot tenir moltes polisses, pero una polissa es d'un client.
+    @ManyToOne
     @JoinColumn(name = "clientId")
     private Client cliente;
-    
-    @Column (name = "dataInici", nullable = false)
+
+    @Column(name = "dataInici", nullable = false)
     private Date dataInici;
-    
-    @Column (name = "dataFi", nullable = false)
+
+    @Column(name = "dataFi", nullable = false)
     private Date dataFi;
-    
-    @Column (name = "tipus")
+
+    @Column(name = "tipus")
     private boolean tipus;
-    
-    @Column (name = "prima")
+
+    @Column(name = "prima")
     private double prima;
-    
+    //ManyToOne, relacionat amb Asseguradora, ja que una asseguradora pot tenir moltes polisses i una polissa nomes pot ser d'una asseguradora.
     @ManyToOne
     @JoinColumn(name = "asseguradoraId")
     private Asseguradora asseguradora;
@@ -186,12 +186,4 @@ public class Polissa implements Serializable {
         return "Polissa{" + "idPolissa=" + idPolissa + ", numero=" + numero + ", vehicle=" + vehicle + ", cliente=" + cliente + ", dataInici=" + dataInici + ", dataFi=" + dataFi + ", tipus=" + tipus + ", prima=" + prima + ", asseguradora=" + asseguradora + '}';
     }
 
-    
-
-   
-
-    
-   
-
-   
 }
