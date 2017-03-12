@@ -26,7 +26,7 @@ public class PersonaJPA {
             Usuari usu1 = new Usuari("Eric12", "1324");//Creem un Usuari
             Client cli1 = new Client(0, "1234678-y", "Ericss", adre1);//Creem un client i li assignem la adreça
             Asseguradora ase1 = new Asseguradora(0, "Mapfre2", "45784d");//Creem una asseguradora
-            //Inicialitzem tots els controladors
+            /*Inicialitzem tots els controladors*/
             Polissa_Controller pc = new Polissa_Controller();
             Usuari_Controller uc = new Usuari_Controller();
             Client_Controller cc = new Client_Controller();
@@ -49,6 +49,7 @@ public class PersonaJPA {
             System.out.println("Eliminar usuari: ");
             uc.Eliminar(usuEliminar);//Eliminem el usuari de la BBDD
             System.out.println("Si busquem ara ja no existeix: " + uc.Buscar("Eric12"));
+            uc.validarUsuari(uc.Buscar("Eric"));//Validem l'usuari per l'aplicacio(donat que no tinc interficie grafica crec que hauria de ser algo aixi)
             /**
              * Aqui farem tot lo relacionat amb els clients
              */
@@ -98,6 +99,7 @@ public class PersonaJPA {
             vc.Eliminar(vehiPerEliminar);//Eliminem el vehicle un cop ja no te cap relacio amb cap altre taula.
             System.out.println("Si busquem ara no existeix: " + vc.Buscar(vehiPerEliminar.getVehicleId()));
             System.out.println(pc.BuscarPerVehicle(vc.Buscar(2141L).getVehicleId()));//Realitzem una cerca de polissas que te el vehicle
+            System.out.println(vc.cercaVehicleMatricula("213456"));
             /**
              * Aqui va tot lo relacionat amb les asseguradores
              */

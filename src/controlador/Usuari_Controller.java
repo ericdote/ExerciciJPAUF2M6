@@ -121,4 +121,16 @@ public class Usuari_Controller {
 
         return p;
     }
+    /**
+     * Metode que li arriba un usuari per parametre i comprova si l'usuari existeix o no.
+     * @param usu 
+     */
+    public void validarUsuari(Usuari usu) {
+        if (usu == null) {
+            System.out.println("No existeix");
+        } else {
+            System.out.println("Existeix");
+        }
+    }
+
 }

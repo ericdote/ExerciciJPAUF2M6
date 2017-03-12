@@ -143,4 +143,23 @@ public class Vehicle_Controller {
         return c;
     }
 
+    /**
+     * Metode utilitzat per cercar vehicles per matricula
+     *
+     * @param matricula
+     * @return
+     */
+    public Vehicle cercaVehicleMatricula(String matricula) {
+        // Recupera el entity manager
+        EntityManager em = new EM_Controller().getEntityManager();
+        System.out.println("Busqueda per matricula");
+        //Query query = em.createNamedQuery("PersonaNom",Persona.class);
+        Query query = em.createNamedQuery("cercaVehicleMatricula", Vehicle.class);
+        query.setParameter("matricula", matricula);
+        Vehicle v = (Vehicle) query.getSingleResult();
+        System.out.println("close");
+        em.close();
+        return v;
+    }
+
 }

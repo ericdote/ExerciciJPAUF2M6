@@ -29,9 +29,9 @@ import javax.persistence.Table;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "cercaClient", query = "SELECT c FROM Client c WHERE c.id=:id")})//Query que serveix per obtenir un client mitjançant la seva ID
-@Table(name = "Vehicles", indexes = {
-    @Index(columnList = "matricula", name = "indexMatricula")})//Asignem nom de la taula i l'index que ens demana l'enunciat.
+@NamedQuery(name = "cercaClient", query = "SELECT c FROM Client c WHERE c.id=:id"),//Query que serveix per obtenir un client mitjançant la seva ID
+@NamedQuery(name = "cercaVehicleMatricula", query = "Select v FROM Vehicle v WHERE v.matricula=:matricula")})//Query que serveix per obtenir un client mitjançant la seva String
+@Table(name = "Vehicles", indexes = {@Index(columnList = "matricula", name = "indexMatricula")})//Asignem nom de la taula i l'index que ens demana l'enunciat.
 public class Vehicle implements Serializable {
 
     private static final long serialVersionUID = 1L;
