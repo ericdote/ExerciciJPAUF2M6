@@ -28,7 +28,11 @@ import javax.persistence.Table;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name="cercaPolizasCliente", query="SELECT p FROM Polissa p WHERE p.cliente=:cliente")})
+@NamedQuery(name="cercaPolizasCliente", query="SELECT p FROM Polissa p WHERE p.cliente.id:cliente"),
+@NamedQuery(name="asignarVehicle", query="SELECT v FROM Vehicle v WHERE v.vehicleId=:vehicleId"),
+@NamedQuery(name="asignarAsseguradora", query="SELECT a FROM Asseguradora a WHERE a.asseguradoraId=:aseguradoraId"),
+@NamedQuery(name="asignarClient", query="SELECT c FROM Client c WHERE c.id=:id"),
+@NamedQuery(name="cercaPolizaPerVehicle", query="SELECT p FROM Polissa p WHERE p.vehicle.vehicleId=:vehicle")})
 @Table (name = "Polissas", indexes = {@Index(columnList = "clientId", name = "indexPrenedor")})
 public class Polissa implements Serializable {
 
@@ -41,12 +45,11 @@ public class Polissa implements Serializable {
     @Column(name = "numeroPolissa", length = 10)
     private String numero;   
     
-    
     @OneToOne
     @JoinColumn(name = "vehicle")
     private Vehicle vehicle;
     
-    @ManyToOne (fetch = FetchType.LAZY) 
+    @ManyToOne 
     @JoinColumn(name = "clientId")
     private Client cliente;
     

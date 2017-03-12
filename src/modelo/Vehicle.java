@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,6 +27,8 @@ import javax.persistence.Table;
  * @author Eric
  */
 @Entity
+@NamedQueries({
+@NamedQuery(name="cercaClient", query="SELECT c FROM Client c WHERE c.id=:id")})
 @Table(name = "Vehicles", indexes = {@Index(columnList = "matricula", name = "indexMatricula")})
 public class Vehicle implements Serializable {
 
@@ -43,7 +47,7 @@ public class Vehicle implements Serializable {
     @Column (name = "anyFabricacio")
     private int anyFabricacio;    
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "clientId")
     private Client propietari;
     
