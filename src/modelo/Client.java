@@ -21,7 +21,9 @@ import javax.persistence.Table;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "cercaClientNom", query = "SELECT c FROM Client c WHERE c.nom=:nom")})//Query utilitzada per cercar un Client pel seu nom
+@NamedQuery(name = "cercaClientNom", query = "SELECT c FROM Client c WHERE c.nom=:nom"),
+@NamedQuery(name="cercaVehiclesClient", query="SELECT v FROM Vehicle v WHERE v.propietari.id=:id"), //Query que busca un Client dins de Polissas pel seu ID
+})//Query utilitzada per cercar un Client pel seu nom
 @Table(name = "Clientes")
 public class Client implements Serializable {
 

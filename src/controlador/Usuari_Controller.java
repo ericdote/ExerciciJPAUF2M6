@@ -105,32 +105,23 @@ public class Usuari_Controller {
      * Metode que busca un client per ID a la BBDD i el retorna en objecte
      * d'usuari
      *
-     * @param id
+     * @param usu
      * @return
      */
-    public Usuari Buscar(String id) {
+    public Usuari Buscar(Usuari usu) {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();
 
         System.out.println("busqueda");
 
-        Usuari p = (Usuari) em.find(Usuari.class, id);
+        Usuari p = (Usuari) em.find(Usuari.class, usu.getNom());
+        
 
         System.out.println("close");
         em.close();
 
         return p;
     }
-    /**
-     * Metode que li arriba un usuari per parametre i comprova si l'usuari existeix o no.
-     * @param usu 
-     */
-    public void validarUsuari(Usuari usu) {
-        if (usu == null) {
-            System.out.println("No existeix");
-        } else {
-            System.out.println("Existeix");
-        }
-    }
+    
 
 }

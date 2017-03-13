@@ -5,6 +5,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import modelo.Client;
+import modelo.Polissa;
+import modelo.Vehicle;
 
 public class Client_Controller {
 
@@ -144,6 +146,18 @@ public class Client_Controller {
      */
     public void imprimirPersona(Client c) {
         System.out.println(c);
+    }
+    
+    public List<Vehicle> obtenirVehiclesClient(long id){
+        EntityManager  em = new EM_Controller().getEntityManager();
+        System.out.println("Cerca de vehicles que te un client");
+        Query query = em.createNamedQuery("cercaVehiclesClient", Vehicle.class);
+        query.setParameter("id", id);
+        List<Vehicle> lista = (List<Vehicle>) query.getResultList();
+        System.out.println(lista);
+        System.out.println("close");
+        em.close();
+        return lista;
     }
 
 }
