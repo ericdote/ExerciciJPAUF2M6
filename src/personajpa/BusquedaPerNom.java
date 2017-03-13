@@ -5,18 +5,26 @@
  */
 package personajpa;
 
+import controlador.Asseguradora_Controller;
 import controlador.Client_Controller;
 import controlador.Persona_Controller;
 import controlador.Polissa_Controller;
 import controlador.Usuari_Controller;
 import controlador.Vehicle_Controller;
 import java.awt.event.FocusListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Adreca;
+import modelo.Asseguradora;
 import modelo.Client;
 import modelo.Persona;
 import modelo.Polissa;
@@ -33,6 +41,9 @@ public class BusquedaPerNom extends javax.swing.JFrame {
     Vehicle vehi;
     Vehicle_Controller vc = new Vehicle_Controller();
     Polissa_Controller pc = new Polissa_Controller();
+    Asseguradora_Controller asc = new Asseguradora_Controller();
+    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    Date date;
 
     /**
      * Creates new form BusquedaPerNom
@@ -57,15 +68,42 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         tfMarcaModel.setText("");
         tfPropietari.setText("");
         campBusquedaMatriculaVehicle.setText("");
+        tfIDPolissa.setText("");
+        tfNumero.setText("");
+        tfVehicleID.setText("");
+        tfClientID.setText("");
+        tfDataInici.setText("");
+        tfDataFi.setText("");
+        tfTipus.setText("");
+        tfPrima.setText("");
+        tfAsseguradora.setText("");
+        tfIDAsseguradora.setText("");
+        tfNombreAsseguradora.setText("");
+        tfCIF.setText("");
     }
 
     private void BuidarTabla() {
         String col[] = {"IDVehicle", "Matricula", "MarcaModel", "AnyFabricacio"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
-        taulaVehicles.setModel(tableModel);           
-        String colPolissa[] = {"IDPolissa", "Numero", "Vehicle", "ClientID", "DataInici", "DataFi", "Tipus", "Prima", "AsseguradoraID"};
+        taulaVehicles.setModel(tableModel);
+        String colPolissa[] = {"IDPolissa", "Numero", "Vehicle", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
         DefaultTableModel tablePolissa = new DefaultTableModel(colPolissa, 0);
         taulaPolissa.setModel(tablePolissa);
+        String colVehicles[] = {"IDVehicle", "Matricula", "MarcaModel", "AnyFabricacio"};
+        DefaultTableModel tableVehicle = new DefaultTableModel(colVehicles, 0);
+        taulaVehiclesTots.setModel(tableVehicle);
+        String colPolisaTot[] = {"IDPolissa", "Numero", "VehicleID", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
+        DefaultTableModel tablePolissesTot = new DefaultTableModel(colPolisaTot, 0);
+        taulaTotesPolisses.setModel(tablePolissesTot);
+        String colPolissesClient[] = {"IDPolissa", "Numero", "VehicleID", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
+        DefaultTableModel tablePolissesClient = new DefaultTableModel(colPolissesClient, 0);
+        taulaPolissasClientId.setModel(tablePolissesClient);
+        String colPolissesVehicle[] = {"IDPolissa", "Numero", "VehicleID", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
+        DefaultTableModel tablePolissesVehicle = new DefaultTableModel(colPolissesVehicle, 0);
+        taulaPolissesVehicleID.setModel(tablePolissesVehicle);
+        String colAsseg[] = {"IDAsseguradora", "Nom", "CIF"};
+        DefaultTableModel tablaAsseguradores = new DefaultTableModel(colAsseg, 0);
+        taulaAsseguradores.setModel(tablaAsseguradores);
     }
 
     /**
@@ -100,6 +138,8 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         taulaVehicles = new javax.swing.JTable();
         btnAfegir = new javax.swing.JButton();
         btnNetejar = new javax.swing.JButton();
+        btnEliminarClient = new javax.swing.JButton();
+        btnModificarClient = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -117,7 +157,71 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         btnAfegir2 = new javax.swing.JButton();
         btnNetejar2 = new javax.swing.JButton();
         jLabelId3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        taulaVehiclesTots = new javax.swing.JTable();
+        btnModificarVehicle = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        tfVehicleID = new javax.swing.JTextField();
+        tfIDPolissa = new javax.swing.JTextField();
+        jLabelId4 = new javax.swing.JLabel();
+        tfNumero = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        tfClientID = new javax.swing.JTextField();
+        tfDataInici = new javax.swing.JTextField();
+        btnBscarPoli = new javax.swing.JButton();
+        campBusquedaPolissa = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        btnAfegir3 = new javax.swing.JButton();
+        btnNetejar3 = new javax.swing.JButton();
+        jLabelId5 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        tfDataFi = new javax.swing.JTextField();
+        tfTipus = new javax.swing.JTextField();
+        tfPrima = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        tfAsseguradora = new javax.swing.JTextField();
+        btnPolizasVehiculo = new javax.swing.JTabbedPane();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        taulaTotesPolisses = new javax.swing.JTable();
+        btnTodasPolizas = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        taulaPolissasClientId = new javax.swing.JTable();
+        btnPolizasCliente = new javax.swing.JButton();
+        tfNomClient = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        taulaPolissesVehicleID = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
+        tfVehiclePolissaCerca = new javax.swing.JTextField();
+        btnModificarPoliza = new javax.swing.JButton();
+        Asseguradora = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        tfCIF = new javax.swing.JTextField();
+        tfIDAsseguradora = new javax.swing.JTextField();
+        jLabelId6 = new javax.swing.JLabel();
+        tfNombreAsseguradora = new javax.swing.JTextField();
+        btnIDAsseguradora = new javax.swing.JButton();
+        campBusquedaIDAsseguradora = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        btnAfegir4 = new javax.swing.JButton();
+        btnNetejar4 = new javax.swing.JButton();
+        jLabelId7 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        taulaAsseguradores = new javax.swing.JTable();
+        btnModificarAsseguradora = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -139,6 +243,8 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         jLabel.setText("Nif");
 
         jLabelId.setText("id");
+
+        tfId.setEditable(false);
 
         jLabel5.setText("carrer");
 
@@ -195,55 +301,82 @@ public class BusquedaPerNom extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarClient.setText("Eliminar");
+        btnEliminarClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarClientActionPerformed(evt);
+            }
+        });
+
+        btnModificarClient.setText("Modificar");
+        btnModificarClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarClientActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnModificarClient)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnEliminarClient)
+                        .addComponent(btnNetejar)
+                        .addComponent(btnAfegir, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(191, 191, 191))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addContainerGap()
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1)
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGap(82, 82, 82)
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(campBusquedaNom, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(103, 103, 103)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabelId)
                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGap(72, 72, 72)
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(campBusquedaNom, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGap(93, 93, 93)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabelId)
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(jLabel)
-                                            .addGap(7, 7, 7))
-                                        .addComponent(jLabel1))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(tfNom)
-                                        .addComponent(tfPoblacio)
-                                        .addComponent(tfNum)
-                                        .addComponent(tfCarrer)
-                                        .addComponent(tfId)
-                                        .addComponent(tfNif, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(116, 116, 116)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(btnNetejar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnAfegir, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addContainerGap()))
+                                    .addComponent(jLabel)
+                                    .addGap(7, 7, 7))
+                                .addComponent(jLabel1))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(tfNom)
+                                .addComponent(tfPoblacio)
+                                .addComponent(tfNum)
+                                .addComponent(tfCarrer)
+                                .addComponent(tfId)
+                                .addComponent(tfNif, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addContainerGap(354, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAfegir)
+                .addGap(18, 18, 18)
+                .addComponent(btnNetejar)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminarClient)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnModificarClient)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
@@ -253,13 +386,11 @@ public class BusquedaPerNom extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelId)
-                        .addComponent(btnAfegir))
+                        .addComponent(jLabelId))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(tfNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnNetejar))
+                        .addComponent(tfNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
@@ -277,11 +408,7 @@ public class BusquedaPerNom extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addComponent(campBusquedaNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton1))
-                    .addGap(47, 47, 47)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(52, 52, 52)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(321, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Clients", jPanel3);
@@ -295,6 +422,8 @@ public class BusquedaPerNom extends javax.swing.JFrame {
                 tfMarcaModelActionPerformed(evt);
             }
         });
+
+        tfIDVehicle.setEditable(false);
 
         jLabelId2.setText("Matricula");
 
@@ -327,6 +456,40 @@ public class BusquedaPerNom extends javax.swing.JFrame {
 
         jLabelId3.setText("ID");
 
+        jButton2.setText("Eliminar per matricula");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Buscar todos");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        taulaVehiclesTots.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "IDVehicle"
+            }
+        ));
+        jScrollPane9.setViewportView(taulaVehiclesTots);
+
+        btnModificarVehicle.setText("Modificar");
+        btnModificarVehicle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarVehicleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -334,16 +497,30 @@ public class BusquedaPerNom extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(jLabelId3))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(campBusquedaMatriculaVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(235, Short.MAX_VALUE))
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton4)))
+                .addContainerGap(83, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(157, 157, 157)
+                .addComponent(jLabelId3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnModificarVehicle)
+                    .addComponent(btnNetejar2)
+                    .addComponent(btnAfegir2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(187, 187, 187))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addGap(103, 103, 103)
@@ -359,23 +536,30 @@ public class BusquedaPerNom extends javax.swing.JFrame {
                         .addComponent(tfAnyFabricacio)
                         .addComponent(tfMatricula)
                         .addComponent(tfIDVehicle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(116, 116, 116)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnNetejar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAfegir2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(51, Short.MAX_VALUE)))
+                    .addContainerGap(268, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelId3)
-                .addGap(162, 162, 162)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelId3)
+                    .addComponent(btnAfegir2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNetejar2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnModificarVehicle)
+                .addGap(95, 95, 95)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campBusquedaMatriculaVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)
-                    .addComponent(jLabel17))
-                .addContainerGap(299, Short.MAX_VALUE))
+                    .addComponent(jLabel17)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addContainerGap()
@@ -383,13 +567,11 @@ public class BusquedaPerNom extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(tfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelId2)
-                        .addComponent(btnAfegir2))
+                        .addComponent(jLabelId2))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
-                        .addComponent(tfMarcaModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnNetejar2))
+                        .addComponent(tfMarcaModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel14)
@@ -398,44 +580,561 @@ public class BusquedaPerNom extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel15)
                         .addComponent(tfPropietari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(358, Short.MAX_VALUE)))
+                    .addContainerGap(359, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addGap(0, 732, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(29, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(29, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 526, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap()))
         );
 
         jTabbedPane1.addTab("Vehicles", jPanel1);
+
+        jLabel8.setText("VehicleID");
+
+        tfVehicleID.setToolTipText("");
+        tfVehicleID.setName(""); // NOI18N
+        tfVehicleID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfVehicleIDActionPerformed(evt);
+            }
+        });
+
+        tfIDPolissa.setEditable(false);
+
+        jLabelId4.setText("Numero");
+
+        jLabel16.setText("ClientID");
+
+        jLabel18.setText("DataInici");
+
+        btnBscarPoli.setText("Buscar per ID");
+        btnBscarPoli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBscarPoliActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setText("Buscar Polissa per ID:");
+
+        btnAfegir3.setText("Afegir");
+        btnAfegir3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAfegir3ActionPerformed(evt);
+            }
+        });
+
+        btnNetejar3.setText("Netejar");
+        btnNetejar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNetejar3ActionPerformed(evt);
+            }
+        });
+
+        jLabelId5.setText("ID");
+
+        jButton6.setText("Eliminar per ID");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("DataFi");
+
+        jLabel3.setText("Tipus");
+
+        jLabel10.setText("Prima");
+
+        jLabel11.setText("AsseguradoraID");
+
+        taulaTotesPolisses.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "IDVehicle"
+            }
+        ));
+        jScrollPane4.setViewportView(taulaTotesPolisses);
+
+        btnTodasPolizas.setText("Buscar todos");
+        btnTodasPolizas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodasPolizasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 707, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addComponent(btnTodasPolizas)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 173, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnTodasPolizas)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        btnPolizasVehiculo.addTab("Todes Polisses", jPanel8);
+
+        taulaPolissasClientId.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "IDVehicle"
+            }
+        ));
+        jScrollPane7.setViewportView(taulaPolissasClientId);
+
+        btnPolizasCliente.setText("Buscar todos");
+        btnPolizasCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPolizasClienteActionPerformed(evt);
+            }
+        });
+
+        tfNomClient.setText("idClient");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(tfNomClient, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPolizasCliente)
+                .addContainerGap(454, Short.MAX_VALUE))
+            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addGap(2, 2, 2)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfNomClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPolizasCliente))
+                .addContainerGap(136, Short.MAX_VALUE))
+            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addContainerGap(31, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        btnPolizasVehiculo.addTab("Polisses Client", jPanel9);
+
+        taulaPolissesVehicleID.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "IDVehicle"
+            }
+        ));
+        jScrollPane8.setViewportView(taulaPolissesVehicleID);
+
+        jButton8.setText("Buscar todos");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        tfVehiclePolissaCerca.setText("idVehicle");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(tfVehiclePolissaCerca, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8)
+                .addContainerGap(488, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addGap(2, 2, 2)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfVehiclePolissaCerca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8))
+                .addContainerGap(138, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addContainerGap(31, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        btnPolizasVehiculo.addTab("Polisses Vehicle", jPanel10);
+
+        btnModificarPoliza.setText("Modificar");
+        btnModificarPoliza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarPolizaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabelId5)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel19))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfDataFi, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfTipus, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfAsseguradora, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(campBusquedaPolissa, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBscarPoli)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton6))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(238, 238, 238)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNetejar3)
+                            .addComponent(btnAfegir3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModificarPoliza))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnPolizasVehiculo)
+                .addContainerGap())
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(103, 103, 103)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel18)
+                        .addComponent(jLabel16)
+                        .addComponent(jLabelId4)
+                        .addComponent(jLabel8))
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(tfVehicleID)
+                        .addComponent(tfDataInici)
+                        .addComponent(tfClientID)
+                        .addComponent(tfNumero)
+                        .addComponent(tfIDPolissa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(311, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAfegir3)
+                    .addComponent(jLabelId5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNetejar3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnModificarPoliza)
+                .addGap(91, 91, 91)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(tfDataFi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tfTipus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(tfPrima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(tfAsseguradora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(campBusquedaPolissa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBscarPoli)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPolizasVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(tfIDPolissa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelId4))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(tfVehicleID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel16)
+                        .addComponent(tfClientID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel18)
+                        .addComponent(tfDataInici, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(376, Short.MAX_VALUE)))
+        );
+
+        btnPolizasVehiculo.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Polissas", jPanel2);
+
+        jLabel12.setText("CIF");
+
+        tfCIF.setToolTipText("");
+        tfCIF.setName(""); // NOI18N
+        tfCIF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfCIFActionPerformed(evt);
+            }
+        });
+
+        tfIDAsseguradora.setEditable(false);
+
+        jLabelId6.setText("Nom");
+
+        btnIDAsseguradora.setText("Buscar per ID");
+        btnIDAsseguradora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIDAsseguradoraActionPerformed(evt);
+            }
+        });
+
+        jLabel22.setText("ID de Asseguradora a Buscar");
+
+        btnAfegir4.setText("Afegir");
+        btnAfegir4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAfegir4ActionPerformed(evt);
+            }
+        });
+
+        btnNetejar4.setText("Netejar");
+        btnNetejar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNetejar4ActionPerformed(evt);
+            }
+        });
+
+        jLabelId7.setText("ID");
+
+        jButton7.setText("Eliminar per ID");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Buscar todas");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        taulaAsseguradores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "IDVehicle"
+            }
+        ));
+        jScrollPane10.setViewportView(taulaAsseguradores);
+
+        btnModificarAsseguradora.setText("Modificar");
+        btnModificarAsseguradora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarAsseguradoraActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(campBusquedaIDAsseguradora, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnIDAsseguradora)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton9)))
+                .addContainerGap(149, Short.MAX_VALUE))
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addGap(157, 157, 157)
+                .addComponent(jLabelId7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnModificarAsseguradora)
+                    .addComponent(btnNetejar4)
+                    .addComponent(btnAfegir4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(187, 187, 187))
+            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel11Layout.createSequentialGroup()
+                    .addGap(149, 149, 149)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabelId6)
+                        .addComponent(jLabel12))
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(tfCIF)
+                        .addComponent(tfNombreAsseguradora)
+                        .addComponent(tfIDAsseguradora, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(268, Short.MAX_VALUE)))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelId7)
+                    .addComponent(btnAfegir4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNetejar4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnModificarAsseguradora)
+                .addGap(95, 95, 95)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campBusquedaIDAsseguradora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnIDAsseguradora)
+                    .addComponent(jLabel22)
+                    .addComponent(jButton7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
+            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel11Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(tfIDAsseguradora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfNombreAsseguradora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelId6))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(tfCIF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(411, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout AsseguradoraLayout = new javax.swing.GroupLayout(Asseguradora);
+        Asseguradora.setLayout(AsseguradoraLayout);
+        AsseguradoraLayout.setHorizontalGroup(
+            AsseguradoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 732, Short.MAX_VALUE)
+            .addGroup(AsseguradoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AsseguradoraLayout.createSequentialGroup()
+                    .addContainerGap(29, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(29, Short.MAX_VALUE)))
+        );
+        AsseguradoraLayout.setVerticalGroup(
+            AsseguradoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 526, Short.MAX_VALUE)
+            .addGroup(AsseguradoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AsseguradoraLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        jTabbedPane1.addTab("Asseguradora", Asseguradora);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -445,7 +1144,9 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
@@ -488,7 +1189,7 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         for (Polissa polissa : listaPolissas) {
             tablePolissa.addRow(new Object[]{polissa.getIdPolissa(),
                 polissa.getNumero(), polissa.getVehicle().getVehicleId(),
-                polissa.getCliente().getId(), polissa.getDataInici(), polissa.getDataFi(), polissa.isTipus(),
+                polissa.getCliente().getId(), polissa.getDataInici(), polissa.getDataFi(), tipusPoliza(polissa.isTipus()),
                 polissa.getPrima(), polissa.getAsseguradora().getAsseguradoraId()
             });
         }
@@ -496,18 +1197,42 @@ public class BusquedaPerNom extends javax.swing.JFrame {
 
     private void btnNetejarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNetejarActionPerformed
         BuidarCamps();
-        BuidarTabla();        
+        BuidarTabla();
     }//GEN-LAST:event_btnNetejarActionPerformed
 
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
-        Adreca afegirAdreca = new Adreca(tfCarrer.getText(),Integer.parseInt(tfNum.getText()),tfPoblacio.getText());
-        Client afegir = new Client(0,tfNif.getText(), tfNom.getText(),afegirAdreca);
+        Adreca afegirAdreca = new Adreca(tfCarrer.getText(), Integer.parseInt(tfNum.getText()), tfPoblacio.getText());
+        Client afegir = new Client(0, tfNif.getText(), tfNom.getText(), afegirAdreca);
         cc.Insertar(afegir);
     }//GEN-LAST:event_btnAfegirActionPerformed
 
-    private void tfMarcaModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMarcaModelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfMarcaModelActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        List<Vehicle> listaVehicles = vc.ConsultaTots();
+        String colVehicles[] = {"IDVehicle", "Matricula", "MarcaModel", "AnyFabricacio"};
+        DefaultTableModel tableVehicle = new DefaultTableModel(colVehicles, 0);
+        taulaVehiclesTots.setModel(tableVehicle);
+        for (Vehicle vehicle : listaVehicles) {
+            tableVehicle.addRow(new Object[]{vehicle.getVehicleId(),
+                vehicle.getMatricula(), vehicle.getMarcaModel(), vehicle.getAnyFabricacio()});
+
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String matricula = campBusquedaMatriculaVehicle.getText();
+        vc.Eliminar(vc.cercaVehicleMatricula(matricula));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnNetejar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNetejar2ActionPerformed
+        BuidarCamps();
+        BuidarTabla();
+    }//GEN-LAST:event_btnNetejar2ActionPerformed
+
+    private void btnAfegir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegir2ActionPerformed
+        Client cliAfegir = cc.Buscar(Long.parseLong(tfPropietari.getText()));
+        Vehicle afegir = new Vehicle(0, tfMatricula.getText(), tfMarcaModel.getText(), Integer.parseInt(tfAnyFabricacio.getText()), cliAfegir, null);
+        vc.Insertar(afegir);
+    }//GEN-LAST:event_btnAfegir2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String matricula = campBusquedaMatriculaVehicle.getText();
@@ -519,15 +1244,184 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         tfPropietari.setText(Long.toString(vehi.getPropietari().getId()));
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void btnAfegir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegir2ActionPerformed
-        Client cliAfegir = cc.Buscar(Long.parseLong(tfPropietari.getText()));
-        Vehicle afegir = new Vehicle(0, tfMatricula.getText(), tfMarcaModel.getText(), Integer.parseInt(tfAnyFabricacio.getText()), cliAfegir, null);
-        vc.Insertar(afegir);
-    }//GEN-LAST:event_btnAfegir2ActionPerformed
+    private void tfMarcaModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMarcaModelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfMarcaModelActionPerformed
 
-    private void btnNetejar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNetejar2ActionPerformed
+    private void tfVehicleIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfVehicleIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfVehicleIDActionPerformed
+
+    private void btnBscarPoliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBscarPoliActionPerformed
+        Polissa poli = pc.Buscar(Long.parseLong(campBusquedaPolissa.getText()));
+        tfIDPolissa.setText(Long.toString(poli.getIdPolissa()));
+        tfNumero.setText(poli.getNumero());
+        tfVehicleID.setText(Long.toString(poli.getVehicle().getVehicleId()));
+        tfClientID.setText(Long.toString(poli.getCliente().getId()));
+        tfDataInici.setText(df.format(poli.getDataInici()));
+        tfDataFi.setText(df.format(poli.getDataFi()));
+        tfTipus.setText(tipusPoliza(poli.isTipus()));
+        tfPrima.setText(Double.toString(poli.getPrima()));
+        tfAsseguradora.setText(Long.toString(poli.getAsseguradora().getAsseguradoraId()));
+
+    }//GEN-LAST:event_btnBscarPoliActionPerformed
+
+    private void btnAfegir3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegir3ActionPerformed
+        Client cliAgregar = cc.Buscar(Long.parseLong(tfClientID.getText()));
+        Vehicle vehiAgregar = vc.Buscar(Long.parseLong(tfVehicleID.getText()));
+        Asseguradora aseAgregar = asc.Buscar(Long.parseLong(tfAsseguradora.getText()));
+        Polissa poli = new Polissa(0, tfNumero.getText(), vehiAgregar, cliAgregar, convertirStringAFecha(tfDataInici.getText()), 
+                convertirStringAFecha(tfDataFi.getText()), tipusPolizaABoolean(tfTipus.getText()), Double.parseDouble(tfPrima.getText()), aseAgregar);
+        pc.Insertar(poli);
+    }//GEN-LAST:event_btnAfegir3ActionPerformed
+
+    private void btnNetejar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNetejar3ActionPerformed
         BuidarCamps();
-    }//GEN-LAST:event_btnNetejar2ActionPerformed
+        BuidarTabla();
+    }//GEN-LAST:event_btnNetejar3ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Polissa poli = pc.Buscar(Long.parseLong(campBusquedaPolissa.getText()));
+        Vehicle vehicleForaPolissa = vc.Buscar(poli.getVehicle().getVehicleId());
+        vehicleForaPolissa.setPolissa(null);
+        vehicleForaPolissa.setPropietari(null);
+        vc.Modificar(vehicleForaPolissa);
+        pc.Eliminar(poli);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void btnTodasPolizasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodasPolizasActionPerformed
+        List<Polissa> listaPolizas = pc.ConsultaTots();
+        String colVehicles[] = {"IDPolissa", "Numero", "VehicleID", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
+        DefaultTableModel tablePolissesTot = new DefaultTableModel(colVehicles, 0);
+        taulaTotesPolisses.setModel(tablePolissesTot);
+
+        for (Polissa polissa : listaPolizas) {
+            tablePolissesTot.addRow(new Object[]{polissa.getIdPolissa(), polissa.getNumero(), polissa.getVehicle().getVehicleId(),
+                polissa.getCliente().getId(), polissa.getDataInici(), polissa.getDataInici(), tipusPoliza(polissa.isTipus()), polissa.getPrima()});
+        }
+    }//GEN-LAST:event_btnTodasPolizasActionPerformed
+
+    private void btnPolizasClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPolizasClienteActionPerformed
+        Long id = Long.parseLong(tfNomClient.getText());
+        List<Polissa> listaPolizas = pc.BuscarPerClientLlista(id);
+        String colVehicles[] = {"IDPolissa", "Numero", "VehicleID", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
+        DefaultTableModel tablePolissesClient = new DefaultTableModel(colVehicles, 0);
+        taulaPolissasClientId.setModel(tablePolissesClient);
+
+        for (Polissa polissa : listaPolizas) {
+            tablePolissesClient.addRow(new Object[]{polissa.getIdPolissa(), polissa.getNumero(), polissa.getVehicle().getVehicleId(),
+                polissa.getCliente().getId(), polissa.getDataInici(), polissa.getDataInici(), tipusPoliza(polissa.isTipus()), polissa.getPrima()});
+        }
+    }//GEN-LAST:event_btnPolizasClienteActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Long id = Long.parseLong(tfVehiclePolissaCerca.getText());
+        Polissa poliza = pc.BuscarPerVehicle(id);
+        String colVehicles[] = {"IDPolissa", "Numero", "VehicleID", "ClientID", "DataInici", "DataFi", "Tipus", "Prima"};
+        DefaultTableModel tablePolissesVehicle = new DefaultTableModel(colVehicles, 0);
+        taulaPolissesVehicleID.setModel(tablePolissesVehicle);
+        tablePolissesVehicle.addRow(new Object[]{poliza.getIdPolissa(), poliza.getNumero(), poliza.getVehicle().getVehicleId(),
+            poliza.getCliente().getId(), poliza.getDataInici(), poliza.getDataInici(), tipusPoliza(poliza.isTipus()), poliza.getPrima()});
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void btnEliminarClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClientActionPerformed
+        cli = cc.BuscarPerNom(campBusquedaNom.getText());
+        List<Polissa> polizas = pc.BuscarPerClientLlista(cli.getId());
+        Vehicle vehicle;
+        for (Polissa poliza : polizas) {
+            vehicle = poliza.getVehicle();
+            vehicle.setPropietari(null);
+            vc.Modificar(vehicle);
+            pc.Eliminar(poliza);
+        }
+        cc.Eliminar(cli);
+    }//GEN-LAST:event_btnEliminarClientActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+
+        List<Asseguradora> listaAsseguradora = asc.ConsultaTots();
+        String colVehicles[] = {"IDAsseguradora", "Nom", "CIF"};
+        DefaultTableModel tablaAsseguradores = new DefaultTableModel(colVehicles, 0);
+        taulaAsseguradores.setModel(tablaAsseguradores);
+
+        for (Asseguradora ase : listaAsseguradora) {
+            tablaAsseguradores.addRow(new Object[]{ase.getAsseguradoraId(), ase.getNom(), ase.getCif()});
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        Asseguradora ase = asc.Buscar(Long.parseLong(campBusquedaIDAsseguradora.getText()));
+        List<Polissa> polizas = pc.buscarAsseguradoraPolissa(ase.getAsseguradoraId());
+        for (Polissa poliza : polizas) {
+            poliza.setAsseguradora(null);
+            pc.Modificar(poliza);
+        }
+        asc.Eliminar(ase);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void btnNetejar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNetejar4ActionPerformed
+        BuidarCamps();
+        BuidarTabla();
+    }//GEN-LAST:event_btnNetejar4ActionPerformed
+
+    private void btnAfegir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegir4ActionPerformed
+        Asseguradora ase = new Asseguradora(0, tfNombreAsseguradora.getText(), tfCIF.getText());
+        asc.Insertar(ase);
+    }//GEN-LAST:event_btnAfegir4ActionPerformed
+
+    private void btnIDAsseguradoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIDAsseguradoraActionPerformed
+        Asseguradora ase = asc.Buscar(Long.parseLong(campBusquedaIDAsseguradora.getText()));
+        tfIDAsseguradora.setText(Long.toString(ase.getAsseguradoraId()));
+        tfNombreAsseguradora.setText(ase.getNom());
+        tfCIF.setText(ase.getCif());
+    }//GEN-LAST:event_btnIDAsseguradoraActionPerformed
+
+    private void tfCIFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCIFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCIFActionPerformed
+
+    private void btnModificarClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarClientActionPerformed
+        cli = cc.Buscar(Long.parseLong(tfId.getText()));
+        Adreca adre = new Adreca(tfCarrer.getText(), Integer.parseInt(tfNum.getText()), tfPoblacio.getText());
+        cli.setNom(tfNom.getText());
+        cli.setNif(tfNif.getText());
+        cli.setAdreca(adre);
+        cc.Modificar(cli);
+    }//GEN-LAST:event_btnModificarClientActionPerformed
+
+    private void btnModificarVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarVehicleActionPerformed
+        vehi = vc.Buscar(Long.parseLong(tfIDVehicle.getText()));
+        cli = vc.BuscarClient(Long.parseLong(tfPropietari.getText()));
+        vehi.setMatricula(tfMatricula.getText());
+        vehi.setMarcaModel(tfMarcaModel.getText());
+        vehi.setAnyFabricacio(Integer.parseInt(tfAnyFabricacio.getText()));
+        vehi.setPropietari(cli);
+        vc.Modificar(vehi);
+    }//GEN-LAST:event_btnModificarVehicleActionPerformed
+
+    private void btnModificarPolizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarPolizaActionPerformed
+        //campBusquedaPolissa
+        Polissa poli = pc.Buscar(Long.parseLong(campBusquedaPolissa.getText()));
+        cli = vc.BuscarClient(Long.parseLong(tfClientID.getText()));
+        vehi = vc.Buscar(Long.parseLong(tfVehicleID.getText()));
+        Asseguradora ase = asc.Buscar(Long.parseLong(tfAsseguradora.getText()));
+        poli.setNumero(tfNumero.getText());
+        poli.setVehicle(vehi);
+        poli.setCliente(cli);
+        poli.setDataInici(convertirStringAFecha(tfDataInici.getText()));
+        poli.setDataFi(convertirStringAFecha(tfDataFi.getText()));
+        poli.setTipus(tipusPolizaABoolean(tfTipus.getText()));
+        poli.setAsseguradora(ase);
+        pc.Modificar(poli);
+    }//GEN-LAST:event_btnModificarPolizaActionPerformed
+
+    private void btnModificarAsseguradoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarAsseguradoraActionPerformed
+        Asseguradora ase = asc.Buscar(Long.parseLong(campBusquedaIDAsseguradora.getText()));
+        ase.setNom(tfNombreAsseguradora.getText());
+        ase.setCif(tfCIF.getText());
+        asc.Modificar(ase);
+    }//GEN-LAST:event_btnModificarAsseguradoraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -572,47 +1466,155 @@ public class BusquedaPerNom extends javax.swing.JFrame {
         });
     }
 
+    public String tipusPoliza(boolean tipus) {
+        return tipus ? "TERCERS" : "A TOT RISC";
+    }
+
+    public boolean tipusPolizaABoolean(String tipus) {
+        boolean tipusBool = false;
+        if (tipus.toUpperCase().equals("TERCERS")) {
+            tipusBool = true;
+        } else if (tipus.toUpperCase().equals("A TOT RISC")) {
+            tipusBool = false;
+        } else {
+            LanzarMensaje(false, "A de ser a TERCERS O A TOT RISC");
+        }
+        return tipusBool;
+    }
+
+    private void LanzarMensaje(boolean error, String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, error ? "Error" : "Información", error
+                ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private Date convertirStringAFecha(String fecha) {
+        try {
+            date = df.parse(fecha);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "La fecha tiene que ser dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(BusquedaPerNom.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Asseguradora;
     private javax.swing.JButton btnAfegir;
     private javax.swing.JButton btnAfegir2;
+    private javax.swing.JButton btnAfegir3;
+    private javax.swing.JButton btnAfegir4;
+    private javax.swing.JButton btnBscarPoli;
+    private javax.swing.JButton btnEliminarClient;
+    private javax.swing.JButton btnIDAsseguradora;
+    private javax.swing.JButton btnModificarAsseguradora;
+    private javax.swing.JButton btnModificarClient;
+    private javax.swing.JButton btnModificarPoliza;
+    private javax.swing.JButton btnModificarVehicle;
     private javax.swing.JButton btnNetejar;
     private javax.swing.JButton btnNetejar2;
+    private javax.swing.JButton btnNetejar3;
+    private javax.swing.JButton btnNetejar4;
+    private javax.swing.JButton btnPolizasCliente;
+    private javax.swing.JTabbedPane btnPolizasVehiculo;
+    private javax.swing.JButton btnTodasPolizas;
+    private javax.swing.JButton btnTotesPolisses;
+    private javax.swing.JButton btnTotesPolisses1;
+    private javax.swing.JTextField campBusquedaIDAsseguradora;
     private javax.swing.JTextField campBusquedaMatriculaVehicle;
     private javax.swing.JTextField campBusquedaNom;
+    private javax.swing.JTextField campBusquedaPolissa;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelId;
     private javax.swing.JLabel jLabelId2;
     private javax.swing.JLabel jLabelId3;
+    private javax.swing.JLabel jLabelId4;
+    private javax.swing.JLabel jLabelId5;
+    private javax.swing.JLabel jLabelId6;
+    private javax.swing.JLabel jLabelId7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JTable taulaAsseguradores;
     private javax.swing.JTable taulaPolissa;
+    private javax.swing.JTable taulaPolissasClientId;
+    private javax.swing.JTable taulaPolissesVehicleID;
+    private javax.swing.JTable taulaTotesPolisses;
     private javax.swing.JTable taulaVehicles;
+    private javax.swing.JTable taulaVehiclesTots;
+    private javax.swing.JTable taulaVehiclesTots2;
+    private javax.swing.JTable taulaVehiclesTots3;
     private javax.swing.JTextField tfAnyFabricacio;
+    private javax.swing.JTextField tfAsseguradora;
+    private javax.swing.JTextField tfCIF;
     private javax.swing.JTextField tfCarrer;
+    private javax.swing.JTextField tfClientID;
+    private javax.swing.JTextField tfDataFi;
+    private javax.swing.JTextField tfDataInici;
+    private javax.swing.JTextField tfIDAsseguradora;
+    private javax.swing.JTextField tfIDPolissa;
     private javax.swing.JTextField tfIDVehicle;
     private javax.swing.JTextField tfId;
     private javax.swing.JTextField tfMarcaModel;
     private javax.swing.JTextField tfMatricula;
     private javax.swing.JTextField tfNif;
     private javax.swing.JTextField tfNom;
+    private javax.swing.JTextField tfNomClient;
+    private javax.swing.JTextField tfNombreAsseguradora;
     private javax.swing.JTextField tfNum;
+    private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfPoblacio;
+    private javax.swing.JTextField tfPrima;
     private javax.swing.JTextField tfPropietari;
+    private javax.swing.JTextField tfTipus;
+    private javax.swing.JTextField tfVehicleID;
+    private javax.swing.JTextField tfVehiclePolissaCerca;
     // End of variables declaration//GEN-END:variables
 }

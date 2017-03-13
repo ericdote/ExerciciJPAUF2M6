@@ -1,5 +1,6 @@
 package controlador;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -115,6 +116,23 @@ public class Asseguradora_Controller {
         em.close();
 
         return p;
+    }
+    
+    /**
+     * Metode utilitzat per consultar totes les polisses, un cop totes obtenides
+     * les retorna en una llista de polisses.
+     *
+     * @return
+     */
+    public List<Asseguradora> ConsultaTots() {
+        // Recupera el entity manager
+        EntityManager em = new EM_Controller().getEntityManager();
+        System.out.println("Consulta");
+        Query q = em.createQuery("FROM Asseguradora");
+        List<Asseguradora> lista = (List<Asseguradora>) q.getResultList();
+        System.out.println("close");
+        em.close();
+        return lista;
     }
 
 }

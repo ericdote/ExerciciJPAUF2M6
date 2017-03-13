@@ -32,7 +32,8 @@ import javax.persistence.Table;
 @NamedQuery(name="asignarVehicle", query="SELECT v FROM Vehicle v WHERE v.vehicleId=:vehicleId"), //Query que busca un Vehicle dins de la taula Vehicle per la seva ID
 @NamedQuery(name="asignarAsseguradora", query="SELECT a FROM Asseguradora a WHERE a.asseguradoraId=:aseguradoraId"), //Query que busca la Asseguradora a la taula Asseguradora per la seva ID
 @NamedQuery(name="asignarClient", query="SELECT c FROM Client c WHERE c.id=:id"), //Query que busca un Client dins de Clients pel seu ID
-@NamedQuery(name="cercaPolizaPerVehicle", query="SELECT p FROM Polissa p WHERE p.vehicle.vehicleId=:vehicle")}) //Query que busca dins de Polissa, la polissa d'un Vehicle per la seva id.
+@NamedQuery(name="cercaPolizaPerVehicle", query="SELECT p FROM Polissa p WHERE p.vehicle.vehicleId=:vehicle"),//Query que busca dins de Polissa, la polissa d'un Vehicle per la seva id.
+@NamedQuery(name="cercaPolizaAsseguradora", query="SELECT p FROM Polissa p WHERE p.asseguradora.asseguradoraId=:id")}) 
 @Table (name = "Polissas", indexes = {@Index(columnList = "clientId", name = "indexPrenedor")})
 public class Polissa implements Serializable {
 

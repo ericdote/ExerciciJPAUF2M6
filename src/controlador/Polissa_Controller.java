@@ -277,4 +277,16 @@ public class Polissa_Controller {
             System.out.println(lista.get(i));
         }
     }
+    
+    public List buscarAsseguradoraPolissa(long id){
+        EntityManager em = new EM_Controller().getEntityManager();
+        System.out.println("Busqueda per id de Polissa");
+        Query query = em.createNamedQuery("cercaPolizaAsseguradora", Polissa.class);
+        query.setParameter("id", id);
+        List<Polissa> lista = (List<Polissa>) query.getResultList();
+        System.out.println(lista);
+        System.out.println("close");
+        em.close();
+        return lista;
+    }
 }

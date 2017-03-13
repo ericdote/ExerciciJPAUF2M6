@@ -114,7 +114,10 @@ public class Persona_Controller {
 
         return p;
     }
-
+    /**
+     * Metode per realitzar una cerca de tots els usuaris
+     * @return 
+     */
     public List<Persona> ConsultaTots() {
         // Recupera el entity manager
         EntityManager em = new EM_Controller().getEntityManager();

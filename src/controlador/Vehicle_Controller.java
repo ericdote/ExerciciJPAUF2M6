@@ -11,6 +11,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import modelo.Adreca;
 import modelo.Client;
+import modelo.Persona;
 import modelo.Usuari;
 import modelo.Vehicle;
 
@@ -160,6 +161,23 @@ public class Vehicle_Controller {
         System.out.println("close");
         em.close();
         return v;
+    }
+    /**
+     * Metode per cercar tots els vehicles
+     * @return 
+     */
+    public List<Vehicle> ConsultaTots() {
+        // Recupera el entity manager
+        EntityManager em = new EM_Controller().getEntityManager();
+
+        System.out.println("Consulta");
+//        List<Persona> lista = (List<Persona>) em.createQuery("FROM Persona").getResultList();
+        Query q = em.createQuery("FROM Vehicle");
+        List<Vehicle> lista = (List<Vehicle>) q.getResultList();
+        System.out.println(lista);
+        System.out.println("close");
+        em.close();
+        return lista;
     }
 
 }
